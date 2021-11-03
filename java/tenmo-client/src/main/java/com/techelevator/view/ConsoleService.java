@@ -1,9 +1,13 @@
 package com.techelevator.view;
 
 
+import com.techelevator.tenmo.services.BalanceServiceException;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class ConsoleService {
@@ -74,5 +78,10 @@ public class ConsoleService {
 		return result;
 	}
 
-	//public void displayBalance(BigDecimal balance)
+	public void displayBalance(BigDecimal balance){
+		DecimalFormat df = new DecimalFormat("$###,##0.00");
+		out.printf("Your current account balance is: %11s.", df.format(balance));
+
+	}
+
 }
