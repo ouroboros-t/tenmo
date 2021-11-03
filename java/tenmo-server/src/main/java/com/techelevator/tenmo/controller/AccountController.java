@@ -25,7 +25,7 @@ public class AccountController {
     }
 
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public BigDecimal get(Principal user) throws BalanceNotFoundException {
+    public BigDecimal getBalance(Principal user) throws BalanceNotFoundException {
         String username = user.getName();
         return dao.getBalance(username);
     }

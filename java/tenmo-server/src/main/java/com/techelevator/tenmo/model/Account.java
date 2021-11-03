@@ -1,12 +1,15 @@
 package com.techelevator.tenmo.model;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Account {
 
     private Long accountId;
+    @NotBlank
     private Long userId;
+    @NotBlank
     private BigDecimal balance;
 
     public Account() { }
