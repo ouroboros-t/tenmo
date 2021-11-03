@@ -1,11 +1,16 @@
 package com.techelevator.tenmo.model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 /**
  * DTO for storing a user's credentials.
  */
 public class LoginDTO {
 
+
    private String username;
+
    private String password;
 
    public String getUsername() {

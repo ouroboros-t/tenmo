@@ -1,14 +1,25 @@
 package com.techelevator.tenmo.model;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public class User {
 
+
    private Long id;
+
+   @Size(min = 3, max = 50, message = "Username must be in between 3 and 50 characters.")
    private String username;
+
+   @Size(min = 6, max = 15, message = "Passwords must be in between 6 and 15 characters.")
    private String password;
+
    private boolean activated;
    private Set<Authority> authorities = new HashSet<>();
 
