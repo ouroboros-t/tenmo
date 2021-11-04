@@ -20,8 +20,8 @@ public class JdbcAccountDao implements AccountDao {
     @Override
     public BigDecimal getBalance(String username) throws BalanceNotFoundException {
         String sql = "SELECT a.balance" +
-                    " FROM accounts as a" +
-                    " JOIN users as u" +
+                    " FROM accounts AS a" +
+                    " JOIN users AS u" +
                     " ON a.user_id = u.user_id" +
                     " WHERE username = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
@@ -35,7 +35,7 @@ public class JdbcAccountDao implements AccountDao {
         Account account = new Account();
         account.setAccountId(rs.getLong("account_id"));
         account.setUserId(rs.getLong("user_id"));
-        account.setBalance(rs.getBigDecimal("balance"));
+        account.setBalance(BigDecimal.valueOf(rs.getDouble("balance")));
         return account;
     }
 }

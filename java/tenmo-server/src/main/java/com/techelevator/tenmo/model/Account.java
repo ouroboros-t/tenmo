@@ -1,14 +1,18 @@
 package com.techelevator.tenmo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Account {
-
+    @JsonProperty("account_id")
     private Long accountId;
+    @JsonProperty("user_id")
     @NotBlank
     private Long userId;
+    @JsonProperty("balance")
     @NotBlank
     private BigDecimal balance;
 
