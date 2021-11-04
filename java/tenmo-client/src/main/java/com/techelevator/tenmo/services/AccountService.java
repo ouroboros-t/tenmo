@@ -15,17 +15,17 @@ public class AccountService {
         this.baseUrl = url + "account";
     }
 
-    public BigDecimal balanceRequest(String token) throws BalanceServiceException {
+    public BigDecimal balanceRequest(String token) throws AccountServiceException {
          return sendBalanceRequest(createRequestEntity(token));
     }
 
-    private BigDecimal sendBalanceRequest(HttpEntity<Void> entity) throws BalanceServiceException {
+    private BigDecimal sendBalanceRequest(HttpEntity<Void> entity) throws AccountServiceException {
         try{
             ResponseEntity<BigDecimal> responseBalance = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, BigDecimal.class);
             return responseBalance.getBody();
         } catch(RestClientResponseException e){
            String message = createBalanceExceptionMessage(e);
-           throw new BalanceServiceException(message);
+           throw new AccountServiceException(message);
         }
     }
 

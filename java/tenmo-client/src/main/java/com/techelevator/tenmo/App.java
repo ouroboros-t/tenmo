@@ -5,10 +5,8 @@ import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.AuthenticationServiceException;
-import com.techelevator.tenmo.services.BalanceServiceException;
+import com.techelevator.tenmo.services.AccountServiceException;
 import com.techelevator.view.ConsoleService;
-
-import java.math.BigDecimal;
 
 public class App {
 
@@ -77,7 +75,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	private void viewCurrentBalance() {
 		try {
 			console.displayBalance(accountService.balanceRequest(currentUser.getToken()));
-		}catch(BalanceServiceException e){
+		}catch(AccountServiceException e){
 			System.out.println("BALANCE ERROR: " + e.getMessage());
 		}
 	}

@@ -1,8 +1,6 @@
 package com.techelevator.view;
 
 
-import com.techelevator.tenmo.services.BalanceServiceException;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
