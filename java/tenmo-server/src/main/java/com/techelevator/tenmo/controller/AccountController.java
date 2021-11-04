@@ -1,7 +1,7 @@
 package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.AccountDao;
-import com.techelevator.tenmo.dao.BalanceNotFoundException;
+import com.techelevator.tenmo.dao.BalanceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +22,7 @@ public class AccountController {
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public BigDecimal getBalance(Principal user) throws BalanceNotFoundException {
+    public BigDecimal getBalance(Principal user) throws BalanceException {
         return dao.getBalance(user.getName());
     }
 

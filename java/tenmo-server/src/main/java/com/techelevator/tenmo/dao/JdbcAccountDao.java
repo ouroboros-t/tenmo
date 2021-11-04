@@ -17,7 +17,7 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public BigDecimal getBalance(String username) throws BalanceNotFoundException {
+    public BigDecimal getBalance(String username) throws BalanceException {
         String sql = "SELECT a.account_id" +
                     ", a.user_id" +
                     ", a.balance" +
@@ -29,7 +29,7 @@ public class JdbcAccountDao implements AccountDao {
         if (results.next()) {
             return mapRowToAccount(results).getBalance();
         }
-        throw new BalanceNotFoundException("User " + username + " balance not found.");
+        throw new BalanceException("User " + username + " balance not found.");
     }
 
     private Account mapRowToAccount(SqlRowSet rs) {

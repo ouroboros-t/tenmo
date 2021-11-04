@@ -17,7 +17,11 @@ public class UserService {
         this.baseUrl = url + "user";
     }
 
-    public User[] getUsersRequest(HttpEntity<Void> entity) throws UserServiceException {
+    public User[] usersRequest(String token) throws UserServiceException {
+        return sendUsersRequest(createRequestEntity(token));
+    }
+
+    public User[] sendUsersRequest(HttpEntity<Void> entity) throws UserServiceException {
         User[] users = null;
         try{
             ResponseEntity<User[]> responseUsers = restTemplate.exchange(baseUrl, HttpMethod.GET,entity, User[].class);
