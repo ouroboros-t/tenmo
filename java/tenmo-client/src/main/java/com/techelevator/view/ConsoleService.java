@@ -81,4 +81,9 @@ public class ConsoleService {
 		out.printf("Your current account balance is: %11s\n", df.format(balance));
 	}
 
+
+	//public void displayBucksSent()
+
+	//public void displayTransferHistory()
+
 }

@@ -21,7 +21,7 @@ public class AccountService {
 
     private BigDecimal sendBalanceRequest(HttpEntity<Void> entity) throws AccountServiceException {
         try{
-            ResponseEntity<BigDecimal> responseBalance = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, BigDecimal.class);
+            ResponseEntity<BigDecimal> responseBalance = restTemplate.exchange(baseUrl, HttpMethod.GET, entity, BigDecimal.class);
             return responseBalance.getBody();
         } catch(RestClientResponseException e){
            String message = createBalanceExceptionMessage(e);

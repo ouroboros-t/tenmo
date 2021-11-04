@@ -1,29 +1,29 @@
 package com.techelevator.tenmo.controller;
 
-import com.techelevator.tenmo.dao.AccountDao;
-import com.techelevator.tenmo.dao.BalanceNotFoundException;
+
+import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.model.User;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.List;
 
 @PreAuthorize("isAuthenticated()")
 @RestController
-@RequestMapping("account")
-public class AccountController {
+@RequestMapping("user")
+public class UserController {
 
-    private AccountDao dao;
+    private UserDao dao;
 
-    public AccountController(AccountDao accountDao) {
-        this.dao = accountDao;
+    public UserController(UserDao dao){
+        this.dao = dao;
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public BigDecimal getBalance(Principal user) throws BalanceNotFoundException {
-        return dao.getBalance(user.getName());
+    public List<User> getUsers(){
+       return dao.findAll();
     }
-
 }
