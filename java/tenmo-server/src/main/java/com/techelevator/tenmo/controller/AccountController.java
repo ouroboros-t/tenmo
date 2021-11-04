@@ -29,7 +29,7 @@ public class AccountController {
     }
 
     @RequestMapping(path= "/{userId}", method = RequestMethod.GET)
-    public Long getUserId(@PathVariable Long userId) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException {
+    public Long getAccountId(@PathVariable Long userId) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException {
        return dao.getAccountIdByUserId(userId);
     }
 

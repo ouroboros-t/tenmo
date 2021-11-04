@@ -123,8 +123,8 @@ public class ConsoleService {
     //credit method (withdraw) -
 
     public void displayBucksSent(Transfer transfer){
-
         out.println();
+        out.println("Transfer " + transfer.getTransferId() + " successful!");
     }
 
     //public void displayTransferHistory()

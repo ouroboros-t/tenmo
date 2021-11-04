@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 @PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("transfer")
@@ -26,8 +28,10 @@ public class TransferController {
      * @return
      */
     @RequestMapping(path ="", method = RequestMethod.POST)
-    public Transfer transfer(@RequestBody Transfer transfer){
-        return transfer;//only added this line to remove redlines..
+    public Transfer transfer(@RequestBody Transfer transfer, Principal user){
+        transfer = dao.createTransfer(transfer);
+        dao.debitAccountFrom(transfer, user.getName());
+        return transfer;
     }
 
     //helper method to check to see if person requesting bucks/sending bucks own the account (From account matches)

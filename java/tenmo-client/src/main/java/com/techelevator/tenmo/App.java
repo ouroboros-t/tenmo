@@ -120,14 +120,14 @@ public class App {
 				for(User user : users){
 					if(user.getId().equals(Long.parseLong(sendId))){
 						isSendUserIdValid = true;
+						Double amountDouble = console.getUserInputDouble("Please enter the TE bucks amount you would like to send");
+						Transfer transfer = createTransfer(sendId,amountDouble);
+						console.displayBucksSent(transferService.transferRequest(currentUser.getToken(), transfer));
 						break;
 					}
 				}
 			}
-			Double amountDouble = console.getUserInputDouble("Please enter the TE bucks amount you would like to send");
-			Transfer transfer = createTransfer(sendId,amountDouble);
 
-			console.displayBucksSent(transferService.transferRequest(currentUser.getToken(), transfer));
 		}catch(UserServiceException e){
 			System.out.println("USERNAME ERROR: " + e.getMessage());
 		}catch(NullPointerException e){

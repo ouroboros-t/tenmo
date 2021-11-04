@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class TransferService {
         private String baseUrl;
-        private RestTemplate restTemplate;
+        private RestTemplate restTemplate = new RestTemplate();
 
         public TransferService(String url){
             this.baseUrl = url + "transfer";
@@ -18,6 +18,7 @@ public class TransferService {
         return sendTransferRequest(createTransferEntity(token, transfer));
 
     }
+
 
     public Transfer sendTransferRequest(HttpEntity<Transfer> entity) throws TransferServiceException{
             try{
