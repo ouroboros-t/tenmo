@@ -75,7 +75,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	private void viewCurrentBalance() {
 		try {
 			console.displayBalance(accountService.balanceRequest(currentUser.getToken()));
-		}catch(AccountServiceException e){
+		} catch(AccountServiceException e) {
 			System.out.println("BALANCE ERROR: " + e.getMessage());
 		}
 	}

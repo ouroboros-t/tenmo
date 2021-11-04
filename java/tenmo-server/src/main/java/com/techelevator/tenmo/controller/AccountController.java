@@ -14,9 +14,10 @@ import java.security.Principal;
 @RestController
 @RequestMapping("account")
 public class AccountController {
+
     private AccountDao dao;
 
-    public AccountController(AccountDao accountDao){
+    public AccountController(AccountDao accountDao) {
         this.dao = accountDao;
     }
 

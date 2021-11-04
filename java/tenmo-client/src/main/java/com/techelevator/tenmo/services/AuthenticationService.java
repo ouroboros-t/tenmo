@@ -81,5 +81,4 @@ public class AuthenticationService {
 		return message;
 	}
 
-	// public BigDecimal balanceRequest(String token, User currentUser)
 }

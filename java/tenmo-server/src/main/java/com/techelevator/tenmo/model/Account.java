@@ -16,7 +16,9 @@ public class Account {
     @NotBlank
     private BigDecimal balance;
 
-    public Account() { }
+    public Account() {
+
+    }
 
     public Long getAccountId() {
         return accountId;
@@ -44,7 +46,8 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(accountId, account.accountId) && Objects.equals(userId, account.userId) && Objects.equals(balance, account.balance);
+        return Objects.equals(accountId, account.accountId) && Objects.equals(userId, account.userId)
+                && Objects.equals(balance, account.balance);
     }
 
     @Override
@@ -60,4 +63,5 @@ public class Account {
                 ", balance=" + balance +
                 '}';
     }
+
 }

@@ -39,4 +39,5 @@ public class JdbcAccountDao implements AccountDao {
         account.setBalance(BigDecimal.valueOf(rs.getDouble("balance")));
         return account;
     }
+
 }
