@@ -1,10 +1,13 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.*;
 import com.techelevator.view.ConsoleService;
+
+import java.math.BigDecimal;
 
 public class App {
 
@@ -28,23 +31,27 @@ public class App {
 	private AuthenticationService authenticationService;
 	private AccountService accountService;
 	private UserService userService;
+	private TransferService transferService;
 
 	public static void main(String[] args) {
 		App app = new App(new ConsoleService(System.in, System.out)
 				, new AuthenticationService(API_BASE_URL)
 				, new AccountService(API_BASE_URL)
-				, new UserService(API_BASE_URL));
+				, new UserService(API_BASE_URL)
+				, new TransferService(API_BASE_URL));
 		app.run();
 	}
 
 	public App(ConsoleService console
 			, AuthenticationService authenticationService
 			, AccountService accountService
-			, UserService userService) {
+			, UserService userService
+			, TransferService transferService) {
 		this.console = console;
 		this.authenticationService = authenticationService;
 		this.accountService = accountService;
 		this.userService = userService;
+		this.transferService = transferService;
 
 	}
 
@@ -103,7 +110,7 @@ public class App {
 		String sendUsername = null;
 		try {
 			users = userService.usersRequest(currentUser.getToken());
-			console.displayUsers(users);
+			console.displayUsers(users, currentUser);
 			boolean isSendUsernameValid = false;
 			while(isSendUsernameValid) {
 				sendUsername = collectSendRequestUser();
@@ -114,6 +121,9 @@ public class App {
 					}
 				}
 			}
+			Double amountDouble = console.getUserInputDouble("Please enter the TE bucks amount you would like to send.");
+			createTransfer(sendUsername,amountDouble);
+
 			//console.displayBucksSent(transactionService.sendRequest(sendUsername,currentUser.getToken()));
 		}catch(UserServiceException e){
 			System.out.println("USERNAME ERROR: " + e.getMessage());
@@ -191,4 +201,15 @@ public class App {
 	private String collectSendRequestUser() {
 		return console.getUserInput("Enter the username to send TE bucks to");
 	}
+
+	private Transfer createTransfer(String sendUsername, Double amountDouble){
+		Transfer transfer = new Transfer();
+		transfer.setTransferTypeId(2);
+		transfer.setTransferStatusId(2);
+		transfer.setAccountFromId(userService.getUserIdFromUsername(currentUser.getToken(), currentUser.getUser().getUsername()));
+		transfer.setAccountToId(userService.getUserIdFromUsername(currentUser.getToken(),sendUsername));
+		transfer.setAmount(BigDecimal.valueOf(amountDouble));
+		return transfer;
+	}
+
 }

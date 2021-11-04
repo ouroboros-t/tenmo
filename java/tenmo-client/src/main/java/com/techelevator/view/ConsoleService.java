@@ -1,6 +1,7 @@
 package com.techelevator.view;
 
 
+import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.User;
 
 import java.io.InputStream;
@@ -78,15 +79,35 @@ public class ConsoleService {
         return result;
     }
 
+    public Double getUserInputDouble(String prompt) {
+        Double result = null;
+        do {
+            out.print(prompt + ": ");
+            out.flush();
+            String userInput = in.nextLine();
+            try {
+                result = Double.parseDouble(userInput);
+            } catch (NumberFormatException e) {
+                out.println(System.lineSeparator() + "*** " + userInput + " is not valid ***" + System.lineSeparator());
+            }
+        } while (result == null);
+        return result;
+    }
+
+
+
+
     public void displayBalance(BigDecimal balance) {
         DecimalFormat df = new DecimalFormat("$###,##0.00");
         out.printf("Your current account balance is: %11s\n", df.format(balance));
     }
 
 
-    public void displayUsers(User[] users) {
+    public void displayUsers(User[] users, AuthenticatedUser currentUser) {
         for (User user : users) {
-            out.println(user.getUsername());
+            if(!user.getUsername().equalsIgnoreCase(currentUser.getUser().getUsername())){
+                out.println(user.getUsername());
+            }
         }
     }
 

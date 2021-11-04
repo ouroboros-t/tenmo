@@ -21,6 +21,9 @@ public class UserService {
         return sendUsersRequest(createRequestEntity(token));
     }
 
+
+
+
     public User[] sendUsersRequest(HttpEntity<Void> entity) throws UserServiceException {
         User[] users = null;
         try{
@@ -33,9 +36,20 @@ public class UserService {
         }
     }
 
+
     private String createUserExceptionMessage(RestClientResponseException e){
         return e.getRawStatusCode() + " : " + e.getResponseBodyAsString();
     }
+
+    public Long getUserIdFromUsername(String token,String username){
+        return sendUserIdFromUsername(username, createRequestEntity(token));
+    }
+
+    public Long sendUserIdFromUsername(String username, HttpEntity<Void> entity){
+        ResponseEntity<Long> response = restTemplate.exchange(baseUrl +"/" + username, HttpMethod.GET, entity,Long.class);
+        return response.getBody();
+    }
+
 
     private HttpEntity<Void> createRequestEntity(String token) {
         HttpHeaders headers = new HttpHeaders();
