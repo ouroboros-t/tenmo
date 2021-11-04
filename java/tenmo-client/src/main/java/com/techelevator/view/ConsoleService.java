@@ -2,6 +2,7 @@ package com.techelevator.view;
 
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 
 import java.io.InputStream;
@@ -104,20 +105,27 @@ public class ConsoleService {
 
 
     public void displayUsers(User[] users, AuthenticatedUser currentUser) {
+        out.println("---------------------------------------------");
+        out.println("Users");
+        out.println("ID          Name");
+        out.println("---------------------------------------------");
         for (User user : users) {
             if(!user.getUsername().equalsIgnoreCase(currentUser.getUser().getUsername())){
-                out.println(user.getUsername());
+                out.printf("%-5s       %s\n",user.getId(), user.getUsername());
             }
         }
+        out.println("---------------------------------------------");
     }
 
-    //prompt user for amount to send
     //validate amount to send is less than balance
     //http post that has payload that includes the $ to transact and the transaction type and transaction status
     //debit method (pay) -
     //credit method (withdraw) -
 
-    //public void displayBucksSent()
+    public void displayBucksSent(Transfer transfer){
+
+        out.println();
+    }
 
     //public void displayTransferHistory()
 

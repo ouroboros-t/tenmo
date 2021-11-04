@@ -1,13 +1,9 @@
 package com.techelevator.tenmo.services;
 
 import com.techelevator.tenmo.model.User;
-import org.openqa.selenium.remote.Response;
 import org.springframework.http.*;
-import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 public class UserService {
     private String baseUrl;
@@ -41,12 +37,12 @@ public class UserService {
         return e.getRawStatusCode() + " : " + e.getResponseBodyAsString();
     }
 
-    public Long getUserIdFromUsername(String token,String username){
-        return sendUserIdFromUsername(username, createRequestEntity(token));
+    public Long getAccountIdFromUserId(String token, Long userId){
+        return sendAccountIdFromUserId(userId, createRequestEntity(token));
     }
 
-    public Long sendUserIdFromUsername(String username, HttpEntity<Void> entity){
-        ResponseEntity<Long> response = restTemplate.exchange(baseUrl +"/" + username, HttpMethod.GET, entity,Long.class);
+    public Long sendAccountIdFromUserId(Long userId, HttpEntity<Void> entity){
+        ResponseEntity<Long> response = restTemplate.exchange(baseUrl +"/" + userId, HttpMethod.GET, entity,Long.class);
         return response.getBody();
     }
 

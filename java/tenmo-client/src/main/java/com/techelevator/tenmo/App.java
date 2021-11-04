@@ -107,28 +107,35 @@ public class App {
 
 	private void sendBucks(){
 		User[] users = null;
-		String sendUsername = null;
+		String sendId = null;
 		try {
 			users = userService.usersRequest(currentUser.getToken());
 			console.displayUsers(users, currentUser);
-			boolean isSendUsernameValid = false;
-			while(isSendUsernameValid) {
-				sendUsername = collectSendRequestUser();
+			boolean isSendUserIdValid = false;
+			while(!isSendUserIdValid) {
+				sendId = collectSendRequestUser();
+				if(Long.parseLong(sendId) == 0){
+					return;
+				}
 				for(User user : users){
-					if(user.getUsername().equalsIgnoreCase(sendUsername)){
-						isSendUsernameValid = true;
+					if(user.getId().equals(Long.parseLong(sendId))){
+						isSendUserIdValid = true;
 						break;
 					}
 				}
 			}
-			Double amountDouble = console.getUserInputDouble("Please enter the TE bucks amount you would like to send.");
-			createTransfer(sendUsername,amountDouble);
+			Double amountDouble = console.getUserInputDouble("Please enter the TE bucks amount you would like to send");
+			Transfer transfer = createTransfer(sendId,amountDouble);
 
-			//console.displayBucksSent(transactionService.sendRequest(sendUsername,currentUser.getToken()));
+			console.displayBucksSent(transferService.transferRequest(currentUser.getToken(), transfer));
 		}catch(UserServiceException e){
 			System.out.println("USERNAME ERROR: " + e.getMessage());
 		}catch(NullPointerException e){
-			System.out.println("USERNAME ERROR: username not provided.");
+			System.out.println("USERNAME ERROR: username not provided");
+		} catch (TransferServiceException e) {
+			System.out.print("INSUFFICIENT FUNDS");
+		} catch (AccountServiceException e) {
+			System.out.println("BALANCE ERROR: " + e.getMessage());
 		}
 	}
 
@@ -199,17 +206,34 @@ public class App {
 	}
 
 	private String collectSendRequestUser() {
-		return console.getUserInput("Enter the username to send TE bucks to");
+		return console.getUserInput("Enter ID of user you are sending to (0 to cancel)");
 	}
 
-	private Transfer createTransfer(String sendUsername, Double amountDouble){
+	private Transfer createTransfer(String sendId, Double amountDouble) throws TransferServiceException, AccountServiceException {
 		Transfer transfer = new Transfer();
 		transfer.setTransferTypeId(2);
 		transfer.setTransferStatusId(2);
-		transfer.setAccountFromId(userService.getUserIdFromUsername(currentUser.getToken(), currentUser.getUser().getUsername()));
-		transfer.setAccountToId(userService.getUserIdFromUsername(currentUser.getToken(),sendUsername));
-		transfer.setAmount(BigDecimal.valueOf(amountDouble));
+		transfer.setAccountFromId(userService.getAccountIdFromUserId(currentUser.getToken(), currentUser.getUser().getId()));
+		transfer.setAccountToId(Long.parseLong(sendId));
+
+		if(validateTransferAmount(amountDouble, currentUser)){
+			transfer.setAmount(BigDecimal.valueOf(amountDouble));
+		} else {
+			throw new TransferServiceException("Insufficient Funds. ");
+		}
 		return transfer;
 	}
+
+	private boolean validateTransferAmount(Double amountDouble, AuthenticatedUser currentUser) throws AccountServiceException {
+		BigDecimal amount = BigDecimal.valueOf(amountDouble);
+		BigDecimal currentBalance = accountService.balanceRequest(currentUser.getToken());
+
+		if(amount.compareTo(currentBalance) <= 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 }

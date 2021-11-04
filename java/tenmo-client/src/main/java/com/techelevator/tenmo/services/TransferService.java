@@ -14,15 +14,15 @@ public class TransferService {
             this.baseUrl = url + "transfer";
         }
 
-    public boolean transferRequest(String token, Transfer transfer) throws TransferServiceException {
+    public Transfer transferRequest(String token, Transfer transfer) throws TransferServiceException {
         return sendTransferRequest(createTransferEntity(token, transfer));
 
     }
 
-    public boolean sendTransferRequest(HttpEntity<Transfer> entity) throws TransferServiceException{
-        try{
-            ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, Void.class);
-            return true;
+    public Transfer sendTransferRequest(HttpEntity<Transfer> entity) throws TransferServiceException{
+            try{
+            ResponseEntity<Transfer> response = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, Transfer.class);
+            return response.getBody();
         }catch(RestClientResponseException e){
             String message = createTransferExceptionMessage(e);
             throw new TransferServiceException(message);
