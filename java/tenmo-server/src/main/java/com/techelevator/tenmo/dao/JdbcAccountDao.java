@@ -1,7 +1,6 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -19,11 +18,13 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public BigDecimal getBalance(String username) throws BalanceNotFoundException {
-        String sql = "SELECT a.balance" +
+        String sql = "SELECT a.account_id" +
+                    ", a.user_id" +
+                    ", a.balance" +
                     " FROM accounts AS a" +
                     " JOIN users AS u" +
                     " ON a.user_id = u.user_id" +
-                    " WHERE username = ?;";
+                    " WHERE username ILIKE ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
         if (results.next()) {
             return mapRowToAccount(results).getBalance();

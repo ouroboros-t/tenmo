@@ -74,12 +74,9 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		}
 	}
 
-	private void viewCurrentBalance()  {
-		// TODO Auto-generated method stub
-		// console.displayBalance(authenticationService.balanceRequest(currentUser.getToken())
+	private void viewCurrentBalance() {
 		try {
-			BigDecimal balance = accountService.balanceRequest(currentUser);
-			console.displayBalance(balance);
+			console.displayBalance(accountService.balanceRequest(currentUser.getToken()));
 		}catch(BalanceServiceException e){
 			System.out.println("BALANCE ERROR: " + e.getMessage());
 		}
@@ -152,6 +149,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 			UserCredentials credentials = collectUserCredentials();
 		    try {
 				currentUser = authenticationService.login(credentials);
+				System.out.println("\nLOGIN SUCCESSFUL: Logged in as " + credentials.getUsername());
 			} catch (AuthenticationServiceException e) {
 				System.out.println("LOGIN ERROR: "+e.getMessage());
 				System.out.println("Please attempt to login again.");

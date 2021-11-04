@@ -1,13 +1,10 @@
 package com.techelevator.tenmo.services;
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.User;
 import org.springframework.http.*;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class AccountService {
 
@@ -18,13 +15,11 @@ public class AccountService {
         this.baseUrl = url + "account";
     }
 
-    public BigDecimal balanceRequest(AuthenticatedUser currentUser) throws BalanceServiceException {
-
-         return sendBalanceRequest(createRequestEntity(currentUser));
-
+    public BigDecimal balanceRequest(String token) throws BalanceServiceException {
+         return sendBalanceRequest(createRequestEntity(token));
     }
 
-    private BigDecimal sendBalanceRequest(HttpEntity<AuthenticatedUser> entity) throws BalanceServiceException {
+    private BigDecimal sendBalanceRequest(HttpEntity<Void> entity) throws BalanceServiceException {
         try{
             ResponseEntity<BigDecimal> responseBalance = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, BigDecimal.class);
             return responseBalance.getBody();
@@ -38,12 +33,11 @@ public class AccountService {
             return e.getRawStatusCode() + " : " + e.getResponseBodyAsString();
     }
 
-    private HttpEntity<AuthenticatedUser> createRequestEntity(AuthenticatedUser currentUser) {
+    private HttpEntity<Void> createRequestEntity(String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(currentUser.getToken());
-        HttpEntity<AuthenticatedUser> entity = new HttpEntity<AuthenticatedUser>(headers);
-        return entity;
+        headers.setBearerAuth(token);
+        return new HttpEntity<Void>(headers);
     }
 
 }
