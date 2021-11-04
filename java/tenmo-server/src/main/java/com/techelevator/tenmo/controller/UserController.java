@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.List;
 
 @PreAuthorize("isAuthenticated()")
@@ -18,6 +17,7 @@ public class UserController {
 
     private UserDao dao;
 
+
     public UserController(UserDao dao){
         this.dao = dao;
     }
@@ -26,4 +26,7 @@ public class UserController {
     public List<User> getUsers(){
        return dao.findAll();
     }
+
+
+
 }

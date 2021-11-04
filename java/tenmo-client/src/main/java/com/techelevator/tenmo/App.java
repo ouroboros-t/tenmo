@@ -213,7 +213,7 @@ public class App {
 		Transfer transfer = new Transfer();
 		transfer.setTransferTypeId(2);
 		transfer.setTransferStatusId(2);
-		transfer.setAccountFromId(userService.getAccountIdFromUserId(currentUser.getToken(), currentUser.getUser().getId()));
+		transfer.setAccountFromId(accountService.getAccountIdFromUserId(currentUser.getToken(), currentUser.getUser().getId()));
 		transfer.setAccountToId(Long.parseLong(sendId));
 
 		if(validateTransferAmount(amountDouble, currentUser)){

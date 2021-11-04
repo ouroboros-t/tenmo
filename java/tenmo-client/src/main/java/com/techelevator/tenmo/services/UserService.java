@@ -37,14 +37,7 @@ public class UserService {
         return e.getRawStatusCode() + " : " + e.getResponseBodyAsString();
     }
 
-    public Long getAccountIdFromUserId(String token, Long userId){
-        return sendAccountIdFromUserId(userId, createRequestEntity(token));
-    }
 
-    public Long sendAccountIdFromUserId(Long userId, HttpEntity<Void> entity){
-        ResponseEntity<Long> response = restTemplate.exchange(baseUrl +"/" + userId, HttpMethod.GET, entity,Long.class);
-        return response.getBody();
-    }
 
 
     private HttpEntity<Void> createRequestEntity(String token) {

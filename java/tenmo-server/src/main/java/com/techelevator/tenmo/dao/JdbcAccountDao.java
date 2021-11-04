@@ -4,7 +4,12 @@ import com.techelevator.tenmo.model.Account;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.security.auth.login.AccountException;
+import javax.security.auth.login.AccountNotFoundException;
 import java.math.BigDecimal;
 
 @Component
@@ -30,6 +35,18 @@ public class JdbcAccountDao implements AccountDao {
             return mapRowToAccount(results).getBalance();
         }
         throw new BalanceException("User " + username + " balance not found.");
+    }
+
+    @Override
+    public Long getAccountIdByUserId(Long userId) throws AccountNotFoundException {
+        String sql = "SELECT account_id, user_id, balance" +
+                    " FROM accounts" +
+                    " WHERE user_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        if(results.next()){
+            return mapRowToAccount(results).getAccountId();
+        }
+        throw new AccountNotFoundException("Account for " + userId +" not found.");
     }
 
     private Account mapRowToAccount(SqlRowSet rs) {
