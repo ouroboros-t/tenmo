@@ -32,16 +32,12 @@ public class AccountService {
     public Account getAccount(String token) throws AccountServiceException {
         HttpEntity<Void> entity = createRequestEntity(token);
         try {
-            ResponseEntity<Account> response = restTemplate.exchange(baseUrl, HttpMethod.GET, entity, Account.class);
+            ResponseEntity<Account> response = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, Account.class);
             return response.getBody();
         } catch (RestClientResponseException e) {
             String message = createBalanceExceptionMessage(e);
             throw new AccountServiceException(message);
         }
-    }
-
-    public Integer getAccountIdFromUsername(String username) {
-        return 0;
     }
 
     public double balanceRequest(String token) throws AccountServiceException {
@@ -68,6 +64,15 @@ public class AccountService {
 
     public Integer sendAccountIdFromUserId(HttpEntity<Void> entity, Integer userId){
         ResponseEntity<Account> response = restTemplate.exchange(baseUrl + "/" + userId, HttpMethod.POST, entity, Account.class);
+        return response.getBody().getAccountId();
+    }
+
+    public Integer getAccountIdFromUsername(String token, String username) {
+        return sendAccountIdFromUsername(createRequestEntity(token), username);
+    }
+
+    public Integer sendAccountIdFromUsername(HttpEntity<Void> entity, String username) {
+        ResponseEntity<Account> response = restTemplate.exchange(baseUrl + "/user/" + username, HttpMethod.POST, entity, Account.class);
         return response.getBody().getAccountId();
     }
 

@@ -27,7 +27,7 @@ public class TransferController {
     @RequestMapping(path ="", method = RequestMethod.POST)
     public Transfer transfer(@RequestBody Transfer transfer, Principal user){
         Transfer newTransfer = dao.createTransfer(transfer);
-        dao.debitAccountFrom(newTransfer, user.getName());
+        dao.debitAccountFrom(newTransfer);
         return newTransfer;
     }
 

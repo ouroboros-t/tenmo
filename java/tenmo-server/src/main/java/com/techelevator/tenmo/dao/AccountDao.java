@@ -9,7 +9,11 @@ public interface AccountDao {
 
     double getBalance(String username) throws BalanceException;
 
-    Integer getAccountIdByUserId(Integer userId) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException;
+    Integer getAccountIdByUserId(Integer userId) throws AccountNotFoundException;
 
-    Account getAccount(String username) throws javax.security.auth.login.AccountNotFoundException;
+    Account getAccount(String username) throws AccountNotFoundException;
+
+    Account getAccountByUserId(int userId) throws AccountNotFoundException;
+
+    Account getAccountByUsername(String username) throws AccountNotFoundException;
 }

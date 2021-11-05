@@ -17,7 +17,7 @@ public class Transfer {
     @JsonProperty("account_to")
     private Integer accountToId;
     @JsonProperty("amount")
-    private BigDecimal amount;
+    private double amount;
 
     public Transfer(){}
 
@@ -61,11 +61,11 @@ public class Transfer {
         this.accountToId = accountToId;
     }
 
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

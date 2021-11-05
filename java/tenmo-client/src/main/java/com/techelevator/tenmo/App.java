@@ -211,11 +211,11 @@ public class App {
 		Transfer transfer = new Transfer();
 		transfer.setTransferTypeId(2);
 		transfer.setTransferStatusId(2);
-		transfer.setAccountFromId(accountService.getAccountIdFromUsername(currentUser.getUser().getUsername()));
+		transfer.setAccountFromId(accountService.getAccountIdFromUsername(currentUser.getToken(), currentUser.getUser().getUsername()));
 		transfer.setAccountToId(accountService.getAccountIdFromUserId(currentUser.getToken(), sendId));
 
 		if(validateTransferAmount(amountDouble, currentUser)){
-			transfer.setAmount(BigDecimal.valueOf(amountDouble));
+			transfer.setAmount(amountDouble);
 		} else {
 			throw new TransferServiceException("Insufficient Funds. ");
 		}

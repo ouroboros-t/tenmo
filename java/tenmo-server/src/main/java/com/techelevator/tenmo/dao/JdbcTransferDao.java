@@ -27,14 +27,10 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public boolean debitAccountFrom(Transfer transfer, String username) {
-        if (validateAccountFrom(transfer, username)) {
+    public boolean debitAccountFrom(Transfer transfer) {
             String sql = "UPDATE accounts SET balance = balance - ? WHERE account_id = ?;";
             jdbcTemplate.update(sql, transfer.getAmount(), transfer.getAccountFromId());
             return true;
-        } else {
-            return false;
-        }
     }
 
     public boolean validateAccountFrom(Transfer transfer, String username) {
