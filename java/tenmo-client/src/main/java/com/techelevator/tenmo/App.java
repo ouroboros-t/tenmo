@@ -1,9 +1,6 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.*;
 import com.techelevator.view.ConsoleService;
 
@@ -118,10 +115,10 @@ public class App {
 					return;
 				}
 				for(User user : users){
-					if(user.getId().equals(Long.parseLong(sendId))){
+					if(user.getId().equals(Integer.parseInt(sendId))){
 						isSendUserIdValid = true;
 						Double amountDouble = console.getUserInputDouble("Please enter the TE bucks amount you would like to send");
-						Transfer transfer = createTransfer(sendId,amountDouble);
+						Transfer transfer = createTransfer(sendId, amountDouble);
 						console.displayBucksSent(transferService.transferRequest(currentUser.getToken(), transfer));
 						break;
 					}
@@ -210,11 +207,12 @@ public class App {
 	}
 
 	private Transfer createTransfer(String sendId, Double amountDouble) throws TransferServiceException, AccountServiceException {
+		Account account = accountService.getAccount(currentUser.getToken());
 		Transfer transfer = new Transfer();
 		transfer.setTransferTypeId(2);
 		transfer.setTransferStatusId(2);
-		transfer.setAccountFromId(accountService.getAccountIdFromUserId(currentUser.getToken(), currentUser.getUser().getId()));
-		transfer.setAccountToId(Long.parseLong(sendId));
+		transfer.setAccountFromId(account.getAccountId());
+		transfer.setAccountToId(Integer.parseInt(sendId));
 
 		if(validateTransferAmount(amountDouble, currentUser)){
 			transfer.setAmount(BigDecimal.valueOf(amountDouble));

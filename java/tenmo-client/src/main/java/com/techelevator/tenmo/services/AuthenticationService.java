@@ -50,9 +50,9 @@ public class AuthenticationService {
         }
 	}
 
-    private ResponseEntity<Map> sendRegistrationRequest(HttpEntity<UserCredentials> entity) throws AuthenticationServiceException {
+    private ResponseEntity<UserCredentials> sendRegistrationRequest(HttpEntity<UserCredentials> entity) throws AuthenticationServiceException {
     	try {
-			return restTemplate.exchange(baseUrl + "register", HttpMethod.POST, entity, Map.class);
+			return restTemplate.exchange(baseUrl + "register", HttpMethod.POST, entity, UserCredentials.class);
 		} catch(RestClientResponseException ex) {
 			String message = createRegisterExceptionMessage(ex);
 			throw new AuthenticationServiceException(message);

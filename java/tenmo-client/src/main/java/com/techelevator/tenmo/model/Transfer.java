@@ -1,26 +1,35 @@
 package com.techelevator.tenmo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class Transfer {
-    private Long transferId;
-    private int transferTypeId;
-    private int transferStatusId;
-    private Long accountFromId;
-    private Long accountToId;
+
+    @JsonProperty("transfer_id")
+    private Integer transferId;
+    @JsonProperty("transfer_type_id")
+    private Integer transferTypeId;
+    @JsonProperty("transfer_status_id")
+    private Integer transferStatusId;
+    @JsonProperty("account_from")
+    private Integer accountFromId;
+    @JsonProperty("account_to")
+    private Integer accountToId;
+    @JsonProperty("amount")
     private BigDecimal amount;
 
     public Transfer(){}
 
-    public Long getTransferId() {
+    public Integer getTransferId() {
         return transferId;
     }
 
-    public void setTransferId(Long transferId) {
+    public void setTransferId(int transferId) {
         this.transferId = transferId;
     }
 
-    public int getTransferTypeId() {
+    public Integer getTransferTypeId() {
         return transferTypeId;
     }
 
@@ -28,7 +37,7 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
-    public int getTransferStatusId() {
+    public Integer getTransferStatusId() {
         return transferStatusId;
     }
 
@@ -36,19 +45,19 @@ public class Transfer {
         this.transferStatusId = transferStatusId;
     }
 
-    public Long getAccountFromId() {
+    public Integer getAccountFromId() {
         return accountFromId;
     }
 
-    public void setAccountFromId(Long accountFromId) {
+    public void setAccountFromId(int accountFromId) {
         this.accountFromId = accountFromId;
     }
 
-    public Long getAccountToId() {
+    public Integer getAccountToId() {
         return accountToId;
     }
 
-    public void setAccountToId(Long accountToId) {
+    public void setAccountToId(int accountToId) {
         this.accountToId = accountToId;
     }
 
@@ -60,18 +69,4 @@ public class Transfer {
         this.amount = amount;
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

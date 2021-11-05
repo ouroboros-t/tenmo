@@ -18,9 +18,9 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public Transfer createTransfer(Transfer transfer) {
-        String sql = "INSERT INTO transfers(transfer_type_id, transfer_status_id,account_from,account_to, amount)" +
-                " VALUES(?,?,?,?) RETURNING transfer_id;";
-        Long newId = jdbcTemplate.queryForObject(sql, Long.class, transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFromId(),
+        String sql = "INSERT INTO transfers(transfer_type_id, transfer_status_id, account_from, account_to, amount)" +
+                " VALUES(?, ?, ?, ?, ?) RETURNING transfer_id;";
+        Integer newId = jdbcTemplate.queryForObject(sql, Integer.class, transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFromId(),
                transfer.getAccountToId(), transfer.getAmount());
         transfer.setTransferId(newId);
         return transfer;
@@ -28,7 +28,7 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public boolean debitAccountFrom(Transfer transfer, String username) {
-        if(validateAccountFrom(transfer, username)){
+        if (validateAccountFrom(transfer, username)) {
             String sql = "UPDATE accounts SET balance = balance - ? WHERE account_id = ?;";
             jdbcTemplate.update(sql, transfer.getAmount(), transfer.getAccountFromId());
             return true;
@@ -45,13 +45,9 @@ public class JdbcTransferDao implements TransferDao {
                     " JOIN users AS u" +
                     " ON a.user_id = u.user_id" +
                     " WHERE username ILIKE ?;";
-        Long accountFromId = jdbcTemplate.queryForObject(sql, Long.class, username);
-        if(accountFromId.equals(transfer.getAccountFromId())) {
-            //TODO: See if accountID is correct (2000s)
-            return true;
-        } else {
-            return false;
-        }
+        Integer accountFromId = jdbcTemplate.queryForObject(sql, Integer.class, username);
+        //TODO: See if accountID is correct (2000s)
+        return accountFromId.equals(transfer.getAccountFromId());
     }
 
 

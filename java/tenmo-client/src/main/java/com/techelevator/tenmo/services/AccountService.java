@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+import com.techelevator.tenmo.model.Account;
 import org.springframework.http.*;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -15,11 +16,22 @@ public class AccountService {
         this.baseUrl = url + "account";
     }
 
+    public Account getAccount(String token) throws AccountServiceException {
+        HttpEntity<Account> entity = createRequestEntity(token);
+        try {
+            ResponseEntity<Account> response = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, Account.class);
+            return response.getBody();
+        } catch (RestClientResponseException e) {
+            String message = createBalanceExceptionMessage(e);
+            throw new AccountServiceException(message);
+        }
+    }
+
     public BigDecimal balanceRequest(String token) throws AccountServiceException {
          return sendBalanceRequest(createRequestEntity(token));
     }
 
-    private BigDecimal sendBalanceRequest(HttpEntity<Void> entity) throws AccountServiceException {
+    private BigDecimal sendBalanceRequest(HttpEntity<Account> entity) throws AccountServiceException {
         try{
             ResponseEntity<BigDecimal> responseBalance = restTemplate.exchange(baseUrl, HttpMethod.GET, entity, BigDecimal.class);
             return responseBalance.getBody();
@@ -33,20 +45,21 @@ public class AccountService {
             return e.getRawStatusCode() + " : " + e.getResponseBodyAsString();
     }
 
-    public Long getAccountIdFromUserId(String token, Long userId){
-        return sendAccountIdFromUserId(userId, createRequestEntity(token));
+    public Integer getAccountIdFromUserId(String token, Integer userId){
+        return sendAccountIdFromUserId(createRequestEntity(token), userId);
     }
 
-    public Long sendAccountIdFromUserId(Long userId, HttpEntity<Void> entity){
-        ResponseEntity<Long> response = restTemplate.exchange(baseUrl +"/" + userId, HttpMethod.GET, entity,Long.class);
-        return response.getBody();
+    public Integer sendAccountIdFromUserId(HttpEntity<Account> entity, Integer userId){
+        ResponseEntity<Account> response = restTemplate.exchange(baseUrl + "/" + userId, HttpMethod.POST, entity, Account.class);
+        return response.getBody().getAccountId();
     }
 
-    private HttpEntity<Void> createRequestEntity(String token) {
+    private HttpEntity<Account> createRequestEntity(String token) {
+        Account account = new Account();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(token);
-        return new HttpEntity<Void>(headers);
+        return new HttpEntity<Account>(account, headers);
     }
 
 }

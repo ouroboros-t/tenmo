@@ -4,10 +4,7 @@ package com.techelevator.tenmo.controller;
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -29,9 +26,9 @@ public class TransferController {
      */
     @RequestMapping(path ="", method = RequestMethod.POST)
     public Transfer transfer(@RequestBody Transfer transfer, Principal user){
-        transfer = dao.createTransfer(transfer);
-        dao.debitAccountFrom(transfer, user.getName());
-        return transfer;
+        Transfer newTransfer = dao.createTransfer(transfer);
+        dao.debitAccountFrom(newTransfer, user.getName());
+        return newTransfer;
     }
 
     //helper method to check to see if person requesting bucks/sending bucks own the account (From account matches)

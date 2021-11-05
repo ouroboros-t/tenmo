@@ -9,7 +9,7 @@ public interface AccountDao {
 
     BigDecimal getBalance(String username) throws BalanceException;
 
-    Long getAccountIdByUserId(Long userId) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException;
+    Integer getAccountIdByUserId(Integer userId) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException;
 
-
+    Account getAccount(String username) throws javax.security.auth.login.AccountNotFoundException;
 }

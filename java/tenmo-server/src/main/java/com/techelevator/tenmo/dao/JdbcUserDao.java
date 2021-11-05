@@ -61,9 +61,9 @@ public class JdbcUserDao implements UserDao {
         // create user
         String sql = "INSERT INTO users (username, password_hash) VALUES (?, ?) RETURNING user_id";
         String password_hash = new BCryptPasswordEncoder().encode(password);
-        Long newUserId;
+        Integer newUserId;
         try {
-            newUserId = jdbcTemplate.queryForObject(sql, Long.class, username, password_hash);
+            newUserId = jdbcTemplate.queryForObject(sql, Integer.class, username, password_hash);
         } catch (DataAccessException e) {
             return false;
                 }
@@ -81,7 +81,7 @@ public class JdbcUserDao implements UserDao {
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
-        user.setId(rs.getLong("user_id"));
+        user.setId(rs.getInt("user_id"));
         user.setUsername(rs.getString("username"));
         user.setPassword(rs.getString("password_hash"));
         user.setActivated(true);

@@ -3,11 +3,9 @@ package com.techelevator.tenmo.controller;
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.AccountNotFoundException;
 import com.techelevator.tenmo.dao.BalanceException;
+import com.techelevator.tenmo.model.Account;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -28,8 +26,13 @@ public class AccountController {
         return dao.getBalance(user.getName());
     }
 
-    @RequestMapping(path= "/{userId}", method = RequestMethod.GET)
-    public Long getAccountId(@PathVariable Long userId) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException {
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public Account getAccount(@RequestBody Account account, Principal user) throws javax.security.auth.login.AccountNotFoundException {
+        return dao.getAccount(user.getName());
+    }
+
+    @RequestMapping(path= "/{userId}", method = RequestMethod.POST)
+    public Integer getAccountIdByUserId(@PathVariable Integer userId) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException {
        return dao.getAccountIdByUserId(userId);
     }
 
