@@ -9,7 +9,7 @@ public class UserService {
     private String baseUrl;
     private RestTemplate restTemplate = new RestTemplate();
 
-    public UserService(String url){
+    public UserService(String url) {
         this.baseUrl = url + "user";
     }
 
@@ -19,17 +19,17 @@ public class UserService {
 
     public User[] sendUsersRequest(HttpEntity<Void> entity) throws UserServiceException {
         User[] users = null;
-        try{
-            ResponseEntity<User[]> responseUsers = restTemplate.exchange(baseUrl, HttpMethod.GET,entity, User[].class);
+        try {
+            ResponseEntity<User[]> responseUsers = restTemplate.exchange(baseUrl, HttpMethod.GET, entity, User[].class);
             users = responseUsers.getBody();
             return users;
-        }catch (RestClientResponseException e){
+        } catch (RestClientResponseException e) {
             String message = createUserExceptionMessage(e);
             throw new UserServiceException(message);
         }
     }
 
-    private String createUserExceptionMessage(RestClientResponseException e){
+    private String createUserExceptionMessage(RestClientResponseException e) {
         return e.getRawStatusCode() + " : " + e.getResponseBodyAsString();
     }
 

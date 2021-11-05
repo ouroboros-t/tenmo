@@ -41,28 +41,28 @@ public class AccountService {
     }
 
     public double balanceRequest(String token) throws AccountServiceException {
-         return sendBalanceRequest(createRequestEntity(token));
+        return sendBalanceRequest(createRequestEntity(token));
     }
 
     private double sendBalanceRequest(HttpEntity<Void> entity) throws AccountServiceException {
-        try{
+        try {
             ResponseEntity<Double> responseBalance = restTemplate.exchange(baseUrl, HttpMethod.GET, entity, Double.class);
             return responseBalance.getBody();
-        } catch(RestClientResponseException e){
-           String message = createBalanceExceptionMessage(e);
-           throw new AccountServiceException(message);
+        } catch (RestClientResponseException e) {
+            String message = createBalanceExceptionMessage(e);
+            throw new AccountServiceException(message);
         }
     }
 
-    private String createBalanceExceptionMessage(RestClientResponseException e){
-            return e.getRawStatusCode() + " : " + e.getResponseBodyAsString();
+    private String createBalanceExceptionMessage(RestClientResponseException e) {
+        return e.getRawStatusCode() + " : " + e.getResponseBodyAsString();
     }
 
-    public Integer getAccountIdFromUserId(String token, int userId){
+    public Integer getAccountIdFromUserId(String token, int userId) {
         return sendAccountIdFromUserId(createRequestEntity(token), userId);
     }
 
-    public Integer sendAccountIdFromUserId(HttpEntity<Void> entity, Integer userId){
+    public Integer sendAccountIdFromUserId(HttpEntity<Void> entity, Integer userId) {
         ResponseEntity<Account> response = restTemplate.exchange(baseUrl + "/" + userId, HttpMethod.POST, entity, Account.class);
         return response.getBody().getAccountId();
     }

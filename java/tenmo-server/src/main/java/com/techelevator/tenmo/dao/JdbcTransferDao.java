@@ -26,12 +26,24 @@ public class JdbcTransferDao implements TransferDao {
         return transfer;
     }
 
+
+
+
+
     @Override
-    public boolean debitAccountFrom(Transfer transfer) {
+    public boolean accountTransaction(Transfer transfer) {
+            //debit
             String sql = "UPDATE accounts SET balance = balance - ? WHERE account_id = ?;";
             jdbcTemplate.update(sql, transfer.getAmount(), transfer.getAccountFromId());
+
+            //credit
+            sql = "UPDATE accounts SET balance = balance + ? WHERE account_id = ?;";
+            jdbcTemplate.update(sql, transfer.getAmount(), transfer.getAccountToId());
+
             return true;
+            //we had a validation method here originally, so we're leaving it as returning a boolean.
     }
+
 
     public boolean validateAccountFrom(Transfer transfer, String username) {
         String sql = "SELECT t.account_from" +

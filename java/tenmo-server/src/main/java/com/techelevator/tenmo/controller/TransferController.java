@@ -27,9 +27,12 @@ public class TransferController {
     @RequestMapping(path ="", method = RequestMethod.POST)
     public Transfer transfer(@RequestBody Transfer transfer, Principal user){
         Transfer newTransfer = dao.createTransfer(transfer);
-        dao.debitAccountFrom(newTransfer);
+        dao.accountTransaction(newTransfer);
         return newTransfer;
     }
+
+
+
 
     //helper method to check to see if person requesting bucks/sending bucks own the account (From account matches)
 

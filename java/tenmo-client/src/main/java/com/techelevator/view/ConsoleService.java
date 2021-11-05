@@ -107,23 +107,37 @@ public class ConsoleService {
         out.println("ID          Name");
         out.println("---------------------------------------------");
         for (User user : users) {
-            if(!user.getUsername().equalsIgnoreCase(currentUser.getUser().getUsername())){
-                out.printf("%-5s       %s\n",user.getId(), user.getUsername());
+            if (!user.getUsername().equalsIgnoreCase(currentUser.getUser().getUsername())) {
+                out.printf("%-5s       %s\n", user.getId(), user.getUsername());
             }
         }
         out.println("---------------------------------------------");
     }
 
-    //validate amount to send is less than balance
-    //http post that has payload that includes the $ to transact and the transaction type and transaction status
-    //debit method (pay) -
-    //credit method (withdraw) -
 
-    public void displayBucksSent(Transfer transfer){
+    public void displayBucksSent(Transfer transfer) {
         out.println();
         out.println("Transfer " + transfer.getTransferId() + " successful!");
     }
 
-    //public void displayTransferHistory()
+    public void displayTransferHistory(Transfer[] transfers, AuthenticatedUser currentUser){
+        out.println("---------------------------------------------");
+        out.println("Transfers");
+        out.println("ID          From/To                 Amount");
+        out.println("---------------------------------------------");
+        for(Transfer transfer : transfers){
+            if(transfer.getAccountToId().equals(currentUser.getUser().getId())
+                    || transfer.getAccountFromId().equals(currentUser.getUser().getId())){
+                if(currentUser.getUser().getId().equals(transfer.getAccountFromId())){
+                    out.println();
+                }
+                if(currentUser.getUser().getId().equals(transfer.getAccountFromId())){
+                    out.println();
+                }
+            }
+        }
+
+        out.println("---------------------------------------------");
+    }
 
 }

@@ -7,7 +7,7 @@ public interface TransferDao {
 
     Transfer createTransfer(Transfer transfer);
 
-    boolean debitAccountFrom(Transfer transfer);
+    boolean accountTransaction(Transfer transfer);
 
 
 
