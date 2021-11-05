@@ -43,7 +43,7 @@ public class TransferService {
         return new HttpEntity<Transfer>(transfer, headers);
     }
 
-    //FOR THE DISPLAY
+    //TODO: Display is incomplete - need to be able to retrieve the user name as well as the transfer info.
 
     public Transfer[] transfersRequest(String token) throws TransferServiceException {
         return sendTransfersRequest(createRequestEntity(token));

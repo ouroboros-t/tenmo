@@ -30,7 +30,7 @@ public class App {
     private UserService userService;
     private TransferService transferService;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws TransferServiceException {
         App app = new App(new ConsoleService(System.in, System.out)
                 , new AuthenticationService(API_BASE_URL)
                 , new AccountService(API_BASE_URL)
@@ -52,7 +52,7 @@ public class App {
 
     }
 
-    public void run() {
+    public void run() throws TransferServiceException {
         System.out.println("*********************");
         System.out.println("* Welcome to TEnmo! *");
         System.out.println("*********************");
@@ -61,7 +61,7 @@ public class App {
         mainMenu();
     }
 
-    private void mainMenu() {
+    private void mainMenu() throws TransferServiceException {
         while (true) {
             String choice = (String) console.getChoiceFromOptions(MAIN_MENU_OPTIONS);
             if (MAIN_MENU_OPTION_VIEW_BALANCE.equals(choice)) {
@@ -91,9 +91,9 @@ public class App {
         }
     }
 
-    private void viewTransferHistory() {
+    private void viewTransferHistory() throws TransferServiceException {
 
-       // console.displayTransferHistory(transferService.transferRequest(currentUser.getToken()));
+       console.displayTransferHistory(transferService.transfersRequest(currentUser.getToken()), currentUser);
 
     }
 

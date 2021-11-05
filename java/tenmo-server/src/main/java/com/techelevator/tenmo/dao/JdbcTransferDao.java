@@ -6,6 +6,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Component
 public class JdbcTransferDao implements TransferDao {
@@ -26,7 +29,18 @@ public class JdbcTransferDao implements TransferDao {
         return transfer;
     }
 
-
+    //TODO: SELECT enough information so that the username can also be retrieved?
+    @Override
+    public List<Transfer> getUserTransfers(){
+        List<Transfer> transfers = new ArrayList<Transfer>();
+        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to,amount" +
+                    " FROM transfers;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while(results.next()){
+            Transfer transfer = mapRowToTransfer(results);
+        }
+        return transfers;
+    }
 
 
 
@@ -54,8 +68,21 @@ public class JdbcTransferDao implements TransferDao {
                     " ON a.user_id = u.user_id" +
                     " WHERE username ILIKE ?;";
         Integer accountFromId = jdbcTemplate.queryForObject(sql, Integer.class, username);
-        //TODO: See if accountID is correct (2000s)
+
         return accountFromId.equals(transfer.getAccountFromId());
+    }
+
+    private Transfer mapRowToTransfer(SqlRowSet rs){
+        Transfer transfer = new Transfer();
+
+        transfer.setTransferId(rs.getInt("transfer_id"));
+        transfer.setTransferTypeId(rs.getInt("transfer_type_id"));
+        transfer.setTransferStatusId(rs.getInt("transfer_status_id"));
+        transfer.setAccountFromId(rs.getInt("account_from"));
+        transfer.setAccountToId(rs.getInt("account_to"));
+        transfer.setAmount(rs.getDouble("amount"));
+
+        return transfer;
     }
 
 

@@ -120,6 +120,7 @@ public class ConsoleService {
         out.println("Transfer " + transfer.getTransferId() + " successful!");
     }
 
+    //TODO: Complete print lines:
     public void displayTransferHistory(Transfer[] transfers, AuthenticatedUser currentUser){
         out.println("---------------------------------------------");
         out.println("Transfers");

@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @PreAuthorize("isAuthenticated()")
 @RestController
@@ -31,7 +32,10 @@ public class TransferController {
         return newTransfer;
     }
 
-
+@RequestMapping(path = "", method = RequestMethod.GET)
+    public List<Transfer> findTransfers(){
+        return dao.getUserTransfers();
+}
 
 
     //helper method to check to see if person requesting bucks/sending bucks own the account (From account matches)
