@@ -16,10 +16,23 @@ public class AccountService {
         this.baseUrl = url + "account";
     }
 
+    public int getAccountIdByUser(String username) {
+        return 0;
+    }
+
+    public Account getAccountByUsername(String username) {
+        int userId = getAccountIdByUser(username);
+        return getAccountByUserId(userId);
+    }
+
+    public Account getAccountByUserId(int userId) {
+        return new Account();
+    }
+
     public Account getAccount(String token) throws AccountServiceException {
-        HttpEntity<Account> entity = createRequestEntity(token);
+        HttpEntity<Void> entity = createRequestEntity(token);
         try {
-            ResponseEntity<Account> response = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, Account.class);
+            ResponseEntity<Account> response = restTemplate.exchange(baseUrl, HttpMethod.GET, entity, Account.class);
             return response.getBody();
         } catch (RestClientResponseException e) {
             String message = createBalanceExceptionMessage(e);
@@ -27,13 +40,17 @@ public class AccountService {
         }
     }
 
-    public BigDecimal balanceRequest(String token) throws AccountServiceException {
+    public Integer getAccountIdFromUsername(String username) {
+        return 0;
+    }
+
+    public double balanceRequest(String token) throws AccountServiceException {
          return sendBalanceRequest(createRequestEntity(token));
     }
 
-    private BigDecimal sendBalanceRequest(HttpEntity<Account> entity) throws AccountServiceException {
+    private double sendBalanceRequest(HttpEntity<Void> entity) throws AccountServiceException {
         try{
-            ResponseEntity<BigDecimal> responseBalance = restTemplate.exchange(baseUrl, HttpMethod.GET, entity, BigDecimal.class);
+            ResponseEntity<Double> responseBalance = restTemplate.exchange(baseUrl, HttpMethod.GET, entity, Double.class);
             return responseBalance.getBody();
         } catch(RestClientResponseException e){
            String message = createBalanceExceptionMessage(e);
@@ -45,17 +62,23 @@ public class AccountService {
             return e.getRawStatusCode() + " : " + e.getResponseBodyAsString();
     }
 
-    public Integer getAccountIdFromUserId(String token, Integer userId){
+    public Integer getAccountIdFromUserId(String token, int userId){
         return sendAccountIdFromUserId(createRequestEntity(token), userId);
     }
 
-    public Integer sendAccountIdFromUserId(HttpEntity<Account> entity, Integer userId){
+    public Integer sendAccountIdFromUserId(HttpEntity<Void> entity, Integer userId){
         ResponseEntity<Account> response = restTemplate.exchange(baseUrl + "/" + userId, HttpMethod.POST, entity, Account.class);
         return response.getBody().getAccountId();
     }
 
-    private HttpEntity<Account> createRequestEntity(String token) {
-        Account account = new Account();
+    private HttpEntity<Void> createRequestEntity(String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+        return new HttpEntity<Void>(headers);
+    }
+
+    private HttpEntity<Account> createRequestEntity(String token, Account account) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(token);

@@ -22,12 +22,12 @@ public class AccountController {
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public BigDecimal getBalance(Principal user) throws BalanceException {
+    public double getBalance(Principal user) throws BalanceException {
         return dao.getBalance(user.getName());
     }
 
-    @RequestMapping(path = "", method = RequestMethod.POST)
-    public Account getAccount(@RequestBody Account account, Principal user) throws javax.security.auth.login.AccountNotFoundException {
+    @RequestMapping(path = "", method = RequestMethod.GET)
+    public Account getAccount(Principal user) throws javax.security.auth.login.AccountNotFoundException {
         return dao.getAccount(user.getName());
     }
 

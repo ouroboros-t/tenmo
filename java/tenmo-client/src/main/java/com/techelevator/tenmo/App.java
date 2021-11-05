@@ -111,14 +111,15 @@ public class App {
 			boolean isSendUserIdValid = false;
 			while(!isSendUserIdValid) {
 				sendId = collectSendRequestUser();
-				if(Long.parseLong(sendId) == 0){
+				if(Integer.parseInt(sendId) == 0){
 					return;
 				}
 				for(User user : users){
 					if(user.getId().equals(Integer.parseInt(sendId))){
+						int sendIdInt = Integer.parseInt(sendId);
 						isSendUserIdValid = true;
 						Double amountDouble = console.getUserInputDouble("Please enter the TE bucks amount you would like to send");
-						Transfer transfer = createTransfer(sendId, amountDouble);
+						Transfer transfer = createTransfer(sendIdInt, amountDouble);
 						console.displayBucksSent(transferService.transferRequest(currentUser.getToken(), transfer));
 						break;
 					}
@@ -206,13 +207,12 @@ public class App {
 		return console.getUserInput("Enter ID of user you are sending to (0 to cancel)");
 	}
 
-	private Transfer createTransfer(String sendId, Double amountDouble) throws TransferServiceException, AccountServiceException {
-		Account account = accountService.getAccount(currentUser.getToken());
+	private Transfer createTransfer(int sendId, Double amountDouble) throws TransferServiceException, AccountServiceException {
 		Transfer transfer = new Transfer();
 		transfer.setTransferTypeId(2);
 		transfer.setTransferStatusId(2);
-		transfer.setAccountFromId(account.getAccountId());
-		transfer.setAccountToId(Integer.parseInt(sendId));
+		transfer.setAccountFromId(accountService.getAccountIdFromUsername(currentUser.getUser().getUsername()));
+		transfer.setAccountToId(accountService.getAccountIdFromUserId(currentUser.getToken(), sendId));
 
 		if(validateTransferAmount(amountDouble, currentUser)){
 			transfer.setAmount(BigDecimal.valueOf(amountDouble));
@@ -222,9 +222,9 @@ public class App {
 		return transfer;
 	}
 
-	private boolean validateTransferAmount(Double amountDouble, AuthenticatedUser currentUser) throws AccountServiceException {
-		BigDecimal amount = BigDecimal.valueOf(amountDouble);
-		BigDecimal currentBalance = accountService.balanceRequest(currentUser.getToken());
+	private boolean validateTransferAmount(Double amount, AuthenticatedUser currentUser) throws AccountServiceException {
+
+		double currentBalance = accountService.balanceRequest(currentUser.getToken());
 
 		if(amount.compareTo(currentBalance) <= 0){
 			return true;

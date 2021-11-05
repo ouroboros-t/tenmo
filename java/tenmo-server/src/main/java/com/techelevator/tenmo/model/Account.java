@@ -12,7 +12,7 @@ public class Account {
     @JsonProperty("user_id")
     private int userId;
     @JsonProperty("balance")
-    private BigDecimal balance;
+    private double balance;
 
     public Account() {
     }
@@ -31,10 +31,10 @@ public class Account {
         this.userId = userId;
     }
 
-    public BigDecimal getBalance() {
+    public double getBalance() {
         return balance;
     }
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 

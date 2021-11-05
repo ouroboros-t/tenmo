@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public interface AccountDao {
 
-    BigDecimal getBalance(String username) throws BalanceException;
+    double getBalance(String username) throws BalanceException;
 
     Integer getAccountIdByUserId(Integer userId) throws AccountNotFoundException, javax.security.auth.login.AccountNotFoundException;
 

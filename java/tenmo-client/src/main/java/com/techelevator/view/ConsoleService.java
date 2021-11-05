@@ -95,7 +95,7 @@ public class ConsoleService {
         return result;
     }
 
-    public void displayBalance(BigDecimal balance) {
+    public void displayBalance(double balance) {
         DecimalFormat df = new DecimalFormat("$###,##0.00");
         out.printf("Your current account balance is: %11s\n", df.format(balance));
     }

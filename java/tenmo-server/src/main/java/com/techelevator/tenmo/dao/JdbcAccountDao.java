@@ -23,7 +23,7 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public BigDecimal getBalance(String username) throws BalanceException {
+    public double getBalance(String username) throws BalanceException {
         String sql = "SELECT a.account_id" +
                     ", a.user_id" +
                     ", a.balance" +
@@ -73,7 +73,7 @@ public class JdbcAccountDao implements AccountDao {
         Account account = new Account();
         account.setAccountId(rs.getInt("account_id"));
         account.setUserId(rs.getInt("user_id"));
-        account.setBalance(BigDecimal.valueOf(rs.getDouble("balance")));
+        account.setBalance(rs.getDouble("balance"));
         return account;
     }
 
