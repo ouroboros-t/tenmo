@@ -131,10 +131,11 @@ public class ConsoleService {
             if (currentUser.getUser().getUsername().equals(user.getUsername())) {
                 for (Transfer transfer : transfers) {
                     if (!transfer.getAccountFromId().equals(currentUser.getUser().getId() + 1000)) {
-                        out.println((transfer.getAccountFromId() - 2000) + "   " + transfer.getAmount());
+                        out.println((transfer.getAccountFromId() - 2000) + "   " + user.getUsername()+"   "  + transfer.getAmount());
+                        //ToDO: get it to display the right username
                     }
-                    if (transfer.getAccountFromId().equals(currentUser.getUser().getId() + 1000)) {
-                        out.println((transfer.getAccountToId() - 2000) + "   " + transfer.getAmount());
+                    if (transfer.getAccountFromId().equals(user.getId() + 1000)) {
+                        out.println((transfer.getAccountToId() - 2000) + "   " + user.getUsername()+"   " + transfer.getAmount());
                     }
 
                 }
