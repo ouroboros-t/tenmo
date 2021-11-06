@@ -49,17 +49,20 @@ public class JdbcTransferDao implements TransferDao {
     @Override
     public List<TransferDetail> getTransferDetails(String username){
         List<TransferDetail> transferDetails = new ArrayList<TransferDetail>();
-        String sql = "SELECT t.transfer_id, t.account_from, t.account_to, t.amount," +
-                    " t.transfer_status_id, ts.transfer_status_desc, " +
-                    " t.transfer_type_id, tt.transfer_type_desc," +
-                    " a1.account_id, a1.balance," +
-                    " u.user_id, u.username" +
-                    " FROM transfers AS t" +
-                    " JOIN accounts AS a1 ON t.account_from = a1.account_id" +
-                    " JOIN users AS u ON a1.user_id = u.user_id" +
-                    " JOIN accounts AS a2 ON a2.user_id = u.user_id" +
-                    " JOIN transfer_statuses AS ts ON t.transfer_status_id = ts.transfer_status_id" +
-                    " JOIN transfer_types AS tt ON t.transfer_type_id = tt.transfer_type_id WHERE username = ?;";
+        String sql = "SELECT t1.transfer_id," +
+                    "t1.amount," +
+                    " userFrom.user_id AS user_from_id, userFrom.username AS user_from_username," +
+                    " userTo.user_id AS user_to_id, userTo.username AS user_to_username," +
+                    " ts.transfer_status_id, ts.transfer_status_desc," +
+                    " tt.transfer_type_id, tt.transfer_type_desc" +
+                    " FROM transfers AS t1" +
+                    " JOIN accounts AS acctFrom ON t1.account_from = acctFrom.account_id" +
+                    " JOIN users AS userFrom ON acctFrom.user_id = userFrom.user_id" +
+                    " JOIN accounts AS acctTo ON t1.account_to = acctTo.account_id" +
+                    " JOIN users AS userTo ON acctTo.user_id = userTo.user_id" +
+                    " JOIN transfer_statuses AS ts ON t1.transfer_status_id = ts.transfer_status_id" +
+                    " JOIN transfer_types AS tt ON t1.transfer_type_id = tt.transfer_type_id" +
+                    " WHERE userFrom.username = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
         while(results.next()){
             TransferDetail transferDetail = mapRowToTransferDetail(results);
@@ -67,7 +70,9 @@ public class JdbcTransferDao implements TransferDao {
         }
         return transferDetails;
     }
-    
+
+
+
 
 
 
@@ -119,13 +124,11 @@ public class JdbcTransferDao implements TransferDao {
         transferDetail.setTransferTypeDesc(rs.getString("transfer_type_desc"));
         transferDetail.setTransferStatusId(rs.getInt("transfer_status_id"));
         transferDetail.setTransferStatusDesc(rs.getString("transfer_status_desc"));
-        transferDetail.setAccountFromId(rs.getInt("account_from"));
-        transferDetail.setAccountToId(rs.getInt("account_to"));
         transferDetail.setAmount(rs.getDouble("amount"));
-        transferDetail.setAccountId(rs.getInt("account_id"));
-        transferDetail.setBalance(rs.getDouble("balance"));
-        transferDetail.setUserId(rs.getInt("user_id"));
-        transferDetail.setUsername(rs.getString("username"));
+        transferDetail.setUserFromUsername(rs.getString("user_from_username"));
+        transferDetail.setUserFromId(rs.getInt("user_from_id"));
+        transferDetail.setUserToUsername(rs.getString("user_to_username"));
+        transferDetail.setUserToId(rs.getInt("user_to_id"));
 
         return transferDetail;
     }

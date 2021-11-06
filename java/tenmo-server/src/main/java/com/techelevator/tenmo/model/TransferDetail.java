@@ -2,45 +2,40 @@ package com.techelevator.tenmo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 public class TransferDetail {
-
     @JsonProperty("transfer_id")
+    @NotBlank
     private Integer transferId;
-    @NotEmpty
-    @JsonProperty("transfer_type_id")
-    private Integer transferTypeId;
-    @NotEmpty
-    @JsonProperty("transfer_type_desc")
-    private String transferTypeDesc;
-    @NotEmpty
-    @JsonProperty("transfer_status_id")
-    private Integer transferStatusId;
-    @NotEmpty
-    @JsonProperty("transfer_status_desc")
-    private String transferStatusDesc;
-    @NotEmpty
-    @JsonProperty("account_from")
-    private Integer accountFromId;
-    @NotEmpty
-    @JsonProperty("account_to")
-    private Integer accountToId;
-    @NotEmpty
     @JsonProperty("amount")
+    @NotBlank
     private double amount;
-    @NotEmpty
-    @JsonProperty("account_id")
-    private Integer accountId;
-    @NotEmpty
-    @JsonProperty("balance")
-    private double balance;
-    @NotEmpty
-    @JsonProperty("user_id")
-    private Integer userId;
-    @NotEmpty
-    @JsonProperty("username")
-    private String username;
+    @JsonProperty("user_from_id")
+    @NotBlank
+    private Integer userFromId;
+    @JsonProperty("user_from_username")
+    @NotBlank
+    private String userFromUsername;
+    @JsonProperty("user_to_id")
+    @NotBlank
+    private Integer userToId;
+    @JsonProperty("user_to_username")
+    @NotBlank
+    private String userToUsername;
+    @JsonProperty("transfer_status_id")
+    @NotBlank
+    private Integer transferStatusId;
+    @JsonProperty("transfer_status_desc")
+    @NotBlank
+    private String transferStatusDesc;
+    @JsonProperty("transfer_type_id")
+    @NotBlank
+    private Integer transferTypeId;
+    @JsonProperty("transfer_type_desc")
+    @NotBlank
+    private String transferTypeDesc;
 
     public TransferDetail(){}
 
@@ -52,20 +47,44 @@ public class TransferDetail {
         this.transferId = transferId;
     }
 
-    public Integer getTransferTypeId() {
-        return transferTypeId;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setTransferTypeId(Integer transferTypeId) {
-        this.transferTypeId = transferTypeId;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
-    public String getTransferTypeDesc() {
-        return transferTypeDesc;
+    public Integer getUserFromId() {
+        return userFromId;
     }
 
-    public void setTransferTypeDesc(String transferTypeDesc) {
-        this.transferTypeDesc = transferTypeDesc;
+    public void setUserFromId(Integer userFromId) {
+        this.userFromId = userFromId;
+    }
+
+    public String getUserFromUsername() {
+        return userFromUsername;
+    }
+
+    public void setUserFromUsername(String userFromUsername) {
+        this.userFromUsername = userFromUsername;
+    }
+
+    public Integer getUserToId() {
+        return userToId;
+    }
+
+    public void setUserToId(Integer userToId) {
+        this.userToId = userToId;
+    }
+
+    public String getUserToUsername() {
+        return userToUsername;
+    }
+
+    public void setUserToUsername(String userToUsername) {
+        this.userToUsername = userToUsername;
     }
 
     public Integer getTransferStatusId() {
@@ -84,59 +103,19 @@ public class TransferDetail {
         this.transferStatusDesc = transferStatusDesc;
     }
 
-    public Integer getAccountFromId() {
-        return accountFromId;
+    public Integer getTransferTypeId() {
+        return transferTypeId;
     }
 
-    public void setAccountFromId(Integer accountFromId) {
-        this.accountFromId = accountFromId;
+    public void setTransferTypeId(Integer transferTypeId) {
+        this.transferTypeId = transferTypeId;
     }
 
-    public Integer getAccountToId() {
-        return accountToId;
+    public String getTransferTypeDesc() {
+        return transferTypeDesc;
     }
 
-    public void setAccountToId(Integer accountToId) {
-        this.accountToId = accountToId;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public Integer getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setTransferTypeDesc(String transferTypeDesc) {
+        this.transferTypeDesc = transferTypeDesc;
     }
 }

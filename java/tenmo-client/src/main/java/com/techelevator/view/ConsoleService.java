@@ -167,18 +167,16 @@ public class ConsoleService {
 
     //TODO: CLEANUP:: THIS METHOD ABOVE IS NOT USED:::
 
+
+    //ToDO: This method partially works; does not show when you get money FROM another user still..
     public void displayTransferDetails(TransferDetail[] transferDetails){
         out.println("---------------------------------------------");
         out.println("Transfers");
         out.println("ID          From/To                 Amount");
         out.println("---------------------------------------------");
         for(TransferDetail transferDetail : transferDetails){
-            out.println(transferDetail.getAccountToId() + "                                "+ transferDetail.getAmount());
-
-
+            out.println(transferDetail.getTransferId() +"          "+ transferDetail.getUserToUsername() +"                 "+ transferDetail.getAmount());
         }
-
-
     }
 
 

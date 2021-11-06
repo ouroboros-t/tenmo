@@ -15,15 +15,16 @@ SELECT * FROM transfers AS t JOIN accounts AS a ON t.account_from = a.account_id
 SELECT account_id, user_id, balance FROM accounts WHERE user_id = 1002;
 
 --Everything for a transfer detail:
-
-SELECT t.transfer_id, t.account_from, t.account_to, t.amount, 
-ts.transfer_status_id, ts.transfer_status_desc, 
-tt.transfer_type_id, tt.transfer_type_desc,
-a1.account_id,a1.balance,
-u.user_id, u.username
-FROM transfers AS t
-JOIN accounts AS a1 ON t.account_from = a1.account_id
-JOIN users AS u ON a1.user_id = u.user_id
-JOIN accounts AS a2 ON a2.user_id = u.user_id
-JOIN transfer_statuses AS ts ON t.transfer_status_id = ts.transfer_status_id
-JOIN transfer_types AS tt ON t.transfer_type_id = tt.transfer_type_id;
+SELECT t1.transfer_id, 
+t1.amount,
+userFrom.user_id AS user_from_id, userFrom.username AS user_from_username,
+userTo.user_id AS user_to_id, userTo.username AS user_to_username,
+ts.transfer_status_id, ts.transfer_status_desc,
+tt.transfer_type_id, tt.transfer_type_desc
+FROM transfers AS t1
+JOIN accounts AS acctFrom ON t1.account_from = acctFrom.account_id
+JOIN users AS userFrom ON acctFrom.user_id = userFrom.user_id
+JOIN accounts AS acctTo ON t1.account_to = acctTo.account_id
+JOIN users AS userTo ON acctTo.user_id = userTo.user_id
+JOIN transfer_statuses AS ts ON t1.transfer_status_id = ts.transfer_status_id
+JOIN transfer_types AS tt ON t1.transfer_type_id = tt.transfer_type_id;
