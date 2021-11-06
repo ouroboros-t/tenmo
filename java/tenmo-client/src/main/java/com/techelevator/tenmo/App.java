@@ -91,9 +91,13 @@ public class App {
         }
     }
 
-    private void viewTransferHistory() throws TransferServiceException {
+    private void viewTransferHistory() {
+        try{
+            console.displayTransferHistory(userService.usersRequest(currentUser.getToken()),transferService.transfersRequest(currentUser.getToken()), currentUser);
+        } catch (TransferServiceException | UserServiceException e){
+            System.out.println("TRANSFER ERROR: " + e.getMessage());
+        }
 
-       console.displayTransferHistory(transferService.transfersRequest(currentUser.getToken()), currentUser);
 
     }
 

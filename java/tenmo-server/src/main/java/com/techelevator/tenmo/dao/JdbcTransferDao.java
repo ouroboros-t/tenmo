@@ -31,13 +31,16 @@ public class JdbcTransferDao implements TransferDao {
 
     //TODO: SELECT enough information so that the username can also be retrieved?
     @Override
-    public List<Transfer> getUserTransfers(){
+    public List<Transfer> getUserTransfers(String username){
         List<Transfer> transfers = new ArrayList<Transfer>();
-        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to,amount" +
-                    " FROM transfers;";
+        String sql = "SELECT t.transfer_id, t.transfer_type_id, t.transfer_status_id, t.account_from, t.account_to, t.amount" +
+                    " FROM transfers AS t" +
+                    " JOIN accounts AS a ON t.account_from = a.account_id" +
+                    " JOIN users AS u ON a.user_id = u.user_id;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()){
             Transfer transfer = mapRowToTransfer(results);
+            transfers.add(transfer);
         }
         return transfers;
     }

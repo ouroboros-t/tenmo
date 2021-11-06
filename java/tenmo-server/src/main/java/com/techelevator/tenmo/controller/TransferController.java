@@ -33,13 +33,9 @@ public class TransferController {
     }
 
 @RequestMapping(path = "", method = RequestMethod.GET)
-    public List<Transfer> findTransfers(){
-        return dao.getUserTransfers();
+    public List<Transfer> findTransfers(Principal user){
+        return dao.getUserTransfers(user.getName());
 }
 
-
-    //helper method to check to see if person requesting bucks/sending bucks own the account (From account matches)
-
-    //private boolean validateUser
 
 }

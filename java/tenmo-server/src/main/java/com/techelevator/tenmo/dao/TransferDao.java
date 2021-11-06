@@ -11,7 +11,7 @@ public interface TransferDao {
 
     boolean accountTransaction(Transfer transfer);
 
-    List<Transfer> getUserTransfers();
+    List<Transfer> getUserTransfers(String username);
 
 
 }

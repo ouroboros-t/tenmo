@@ -120,25 +120,51 @@ public class ConsoleService {
         out.println("Transfer " + transfer.getTransferId() + " successful!");
     }
 
-    //TODO: Complete print lines:
-    public void displayTransferHistory(Transfer[] transfers, AuthenticatedUser currentUser){
+    //TODO: Figure out how to display: userId, userName, transferAmount. Right now it's showing all transfers.
+    public void displayTransferHistory(User[] users, Transfer[] transfers, AuthenticatedUser currentUser) {
         out.println("---------------------------------------------");
         out.println("Transfers");
         out.println("ID          From/To                 Amount");
         out.println("---------------------------------------------");
-        for(Transfer transfer : transfers){
-            if(transfer.getAccountToId().equals(currentUser.getUser().getId())
-                    || transfer.getAccountFromId().equals(currentUser.getUser().getId())){
-                if(currentUser.getUser().getId().equals(transfer.getAccountFromId())){
-                    out.println();
-                }
-                if(currentUser.getUser().getId().equals(transfer.getAccountFromId())){
-                    out.println();
+
+        for (User user : users) {
+            if (currentUser.getUser().getUsername().equals(user.getUsername())) {
+                for (Transfer transfer : transfers) {
+                    if (!transfer.getAccountFromId().equals(currentUser.getUser().getId() + 1000)) {
+                        out.println((transfer.getAccountFromId() - 2000) + "   " + transfer.getAmount());
+                    }
+                    if (transfer.getAccountFromId().equals(currentUser.getUser().getId() + 1000)) {
+                        out.println((transfer.getAccountToId() - 2000) + "   " + transfer.getAmount());
+                    }
+
                 }
             }
         }
 
+//        //ToDO: The "To" account needs to reflect which user money went to. Currently shows only current Username..
+//        if (transfer.getAccountToId().equals(currentUser.getUser().getId()+ 1000)) { //couldn't think of another way!
+//            if(user.getUsername().equals(user.getUsername())) {
+//                out.println("         To: " + user.getUsername() + "                   " + transfer.getAmount());
+//            }
+//        }
+//        if (transfer.getAccountFromId().equals(user.getId() + 1000)) {
+//            if(!user.getUsername().equals(currentUser.getUser().getUsername())) {
+//                out.println("        From: " + user.getUsername() + "                 " + transfer.getAmount());
+//            }
+//        }
+
+//        for (Transfer transfer : transfers) {
+//            //I know there's a better way...just don't know the way right now...
+//            if(transfer.getAccountToId().equals(currentUser.getUser().getId() + 1000)) {
+//                out.println("          "+"To You:" +"                   "+transfer.getAmount());
+//            }
+//            if(transfer.getAccountFromId().equals(currentUser.getUser().getId() + 1000)){
+//                out.println("          "+"From You:"+"                 "+transfer.getAmount());
+//            }
+//        }
         out.println("---------------------------------------------");
     }
 
+
 }
+
