@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.TransferDetail;
 import org.openqa.selenium.remote.Response;
 import org.springframework.http.*;
 import org.springframework.web.client.RestClientResponseException;
@@ -61,6 +62,25 @@ public class TransferService {
         }
 
     }
+
+    //ADDING TRANSFERDETAILS TO SEE IF WORKS:::
+    public TransferDetail[] transferDetailRequest(String token) throws TransferServiceException {
+        return sentTransferDetailRequest(createRequestEntity(token));
+    }
+
+    public TransferDetail[] sentTransferDetailRequest(HttpEntity<Void> entity) throws TransferServiceException {
+        TransferDetail[] transferDetails = null;
+        try{
+            ResponseEntity<TransferDetail[]> responseTransferDetails = restTemplate.exchange(baseUrl,HttpMethod.GET,entity,TransferDetail[].class);
+            transferDetails = responseTransferDetails.getBody();
+        }catch(RestClientResponseException e){
+            String message = createTransferExceptionMessage(e);
+            throw new TransferServiceException(message);
+        }
+        return transferDetails;
+    }
+
+
 
     private HttpEntity<Void> createRequestEntity(String token) {
         HttpHeaders headers = new HttpHeaders();

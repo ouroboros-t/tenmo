@@ -1,9 +1,7 @@
 package com.techelevator.view;
 
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
+import com.techelevator.tenmo.model.*;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -120,7 +118,8 @@ public class ConsoleService {
         out.println("Transfer " + transfer.getTransferId() + " successful!");
     }
 
-    //TODO: Figure out how to display: userId, userName, transferAmount. Right now it's showing all transfers.
+    //TODO: CLEANUP:: THIS METHOD BELOW IS NOT USED:::
+
     public void displayTransferHistory(User[] users, Transfer[] transfers, AuthenticatedUser currentUser) {
         out.println("---------------------------------------------");
         out.println("Transfers");
@@ -130,7 +129,7 @@ public class ConsoleService {
         for (User user : users) {
             if (currentUser.getUser().getUsername().equals(user.getUsername())) {
                 for (Transfer transfer : transfers) {
-                    if (!transfer.getAccountFromId().equals(currentUser.getUser().getId() + 1000)) {
+                    if (transfer.getAccountFromId().equals(currentUser.getUser().getId() + 1000)) {
                         out.println((transfer.getAccountFromId() - 2000) + "   " + user.getUsername()+"   "  + transfer.getAmount());
                         //ToDO: get it to display the right username
                     }
@@ -164,6 +163,22 @@ public class ConsoleService {
 //            }
 //        }
         out.println("---------------------------------------------");
+    }
+
+    //TODO: CLEANUP:: THIS METHOD ABOVE IS NOT USED:::
+
+    public void displayTransferDetails(TransferDetail[] transferDetails){
+        out.println("---------------------------------------------");
+        out.println("Transfers");
+        out.println("ID          From/To                 Amount");
+        out.println("---------------------------------------------");
+        for(TransferDetail transferDetail : transferDetails){
+            out.println(transferDetail.getAccountToId() + "                                "+ transferDetail.getAmount());
+
+
+        }
+
+
     }
 
 

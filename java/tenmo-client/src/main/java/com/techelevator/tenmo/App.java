@@ -93,8 +93,9 @@ public class App {
 
     private void viewTransferHistory() {
         try{
-            console.displayTransferHistory(userService.usersRequest(currentUser.getToken()),transferService.transfersRequest(currentUser.getToken()), currentUser);
-        } catch (TransferServiceException | UserServiceException e){
+            //console.displayTransferHistory(userService.usersRequest(currentUser.getToken()),transferService.transfersRequest(currentUser.getToken()), currentUser);
+            console.displayTransferDetails(transferService.transferDetailRequest(currentUser.getToken()));
+        } catch (TransferServiceException e){
             System.out.println("TRANSFER ERROR: " + e.getMessage());
         }
 
