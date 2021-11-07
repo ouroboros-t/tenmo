@@ -182,7 +182,7 @@ public class ConsoleService {
             if (transferDetail.getUserFromId().equals(currentUser.getUser().getId())) {
                 out.println(transferDetail.getTransferId() + "      To: " + transferDetail.getUserToUsername() + "                 " + transferDetail.getAmount());
             }
-            break; //nts: this break is here because it stopped repeats. 
+            break; //nts: this break is here because it stopped repeats.
 
         }
     }
