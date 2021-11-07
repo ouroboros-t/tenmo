@@ -29,12 +29,12 @@ public class AccountController {
         return dao.getAccount(user.getName());
     }
 
-    @RequestMapping(path= "/{userId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/{userId}", method = RequestMethod.POST)
     public Account getAccountIdByUserId(@PathVariable Integer userId) throws com.techelevator.tenmo.dao.AccountNotFoundException {
-       return dao.getAccountByUserId(userId);
+        return dao.getAccountByUserId(userId);
     }
 
-    @RequestMapping(path= "/user/{username}", method = RequestMethod.POST)
+    @RequestMapping(path = "/user/{username}", method = RequestMethod.POST)
     public Account getAccountIdByUserId(@PathVariable String username) throws com.techelevator.tenmo.dao.AccountNotFoundException {
         return dao.getAccountByUsername(username);
     }

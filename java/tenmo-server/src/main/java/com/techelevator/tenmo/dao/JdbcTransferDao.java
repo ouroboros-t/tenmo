@@ -30,22 +30,6 @@ public class JdbcTransferDao implements TransferDao {
         return transfer;
     }
 
-    //TODO: CLEANUP:: THIS METHOD BELOW IS NOT USED:::
-    public List<Transfer> getUserTransfers(String username){
-        List<Transfer> transfers = new ArrayList<Transfer>();
-        String sql = "SELECT t.transfer_id, t.transfer_type_id, t.transfer_status_id, t.account_from, t.account_to, t.amount, " +
-                "a.account_id, a.user_id, a.balance, u.user_id, u.username" +
-                    " FROM transfers AS t" +
-                    " JOIN accounts AS a ON t.account_from = a.account_id" +
-                    " JOIN users AS u ON a.user_id = u.user_id WHERE username = ?;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
-        while(results.next()){
-            Transfer transfer = mapRowToTransfer(results);
-            transfers.add(transfer);
-        }
-        return transfers;
-    }
-    //TODO: CLEANUP:: THIS METHOD ABOVE IS NOT USED:::
     @Override
     public List<TransferDetail> getTransferDetails(String username){
         List<TransferDetail> transferDetails = new ArrayList<TransferDetail>();
@@ -70,11 +54,6 @@ public class JdbcTransferDao implements TransferDao {
         }
         return transferDetails;
     }
-
-
-
-
-
 
     @Override
     public boolean accountTransaction(Transfer transfer) {
@@ -104,19 +83,6 @@ public class JdbcTransferDao implements TransferDao {
         return accountFromId.equals(transfer.getAccountFromId());
     }
 
-    private Transfer mapRowToTransfer(SqlRowSet rs){
-        Transfer transfer = new Transfer();
-
-        transfer.setTransferId(rs.getInt("transfer_id"));
-        transfer.setTransferTypeId(rs.getInt("transfer_type_id"));
-        transfer.setTransferStatusId(rs.getInt("transfer_status_id"));
-        transfer.setAccountFromId(rs.getInt("account_from"));
-        transfer.setAccountToId(rs.getInt("account_to"));
-        transfer.setAmount(rs.getDouble("amount"));
-
-        return transfer;
-    }
-
     private TransferDetail mapRowToTransferDetail(SqlRowSet rs){
         TransferDetail transferDetail = new TransferDetail();
         transferDetail.setTransferId(rs.getInt("transfer_id"));
@@ -132,7 +98,5 @@ public class JdbcTransferDao implements TransferDao {
 
         return transferDetail;
     }
-
-
 
 }

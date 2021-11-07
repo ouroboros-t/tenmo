@@ -17,12 +17,12 @@ public class JdbcAccountDao implements AccountDao {
     @Override
     public double getBalance(String username) throws BalanceException {
         String sql = "SELECT a.account_id" +
-                    ", a.user_id" +
-                    ", a.balance" +
-                    " FROM accounts AS a" +
-                    " JOIN users AS u" +
-                    " ON a.user_id = u.user_id" +
-                    " WHERE username ILIKE ?;";
+                ", a.user_id" +
+                ", a.balance" +
+                " FROM accounts AS a" +
+                " JOIN users AS u" +
+                " ON a.user_id = u.user_id" +
+                " WHERE username ILIKE ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
         if (results.next()) {
             return mapRowToAccount(results).getBalance();
@@ -33,32 +33,31 @@ public class JdbcAccountDao implements AccountDao {
     @Override
     public Integer getAccountIdByUserId(Integer userId) throws AccountNotFoundException {
         String sql = "SELECT account_id, user_id, balance" +
-                    " FROM accounts" +
-                    " WHERE user_id = ?;";
+                " FROM accounts" +
+                " WHERE user_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
-        if(results.next()){
+        if (results.next()) {
             return mapRowToAccount(results).getAccountId();
 
 
-
         }
-        throw new AccountNotFoundException("Account for " + userId +" not found.");
+        throw new AccountNotFoundException("Account for " + userId + " not found.");
     }
 
     @Override
     public Account getAccount(String username) throws AccountNotFoundException {
         String sql = " SELECT a.account_id" +
-                    " , a.user_id" +
-                    " , a.balance" +
-                    " FROM accounts AS a" +
-                    " JOIN users AS u" +
-                    " ON a.user_id = u.user_id" +
-                    " WHERE u.username ILIKE ?;";
+                " , a.user_id" +
+                " , a.balance" +
+                " FROM accounts AS a" +
+                " JOIN users AS u" +
+                " ON a.user_id = u.user_id" +
+                " WHERE u.username ILIKE ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
         if (results.next()) {
             return mapRowToAccount(results);
         }
-        throw new AccountNotFoundException("Account for " + username +" not found.");
+        throw new AccountNotFoundException("Account for " + username + " not found.");
     }
 
     @Override
@@ -70,7 +69,7 @@ public class JdbcAccountDao implements AccountDao {
         if (results.next()) {
             return mapRowToAccount(results);
         }
-        throw new AccountNotFoundException("Account for " + userId +" not found.");
+        throw new AccountNotFoundException("Account for " + userId + " not found.");
     }
 
     @Override
@@ -86,7 +85,7 @@ public class JdbcAccountDao implements AccountDao {
         if (results.next()) {
             return mapRowToAccount(results);
         }
-        throw new AccountNotFoundException("Account for " + username +" not found.");
+        throw new AccountNotFoundException("Account for " + username + " not found.");
     }
 
     private Account mapRowToAccount(SqlRowSet rs) {

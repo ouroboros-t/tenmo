@@ -118,72 +118,20 @@ public class ConsoleService {
         out.println("Transfer " + transfer.getTransferId() + " successful!");
     }
 
-    //TODO: CLEANUP:: THIS METHOD BELOW IS NOT USED:::
-
-    public void displayTransferHistory(User[] users, Transfer[] transfers, AuthenticatedUser currentUser) {
-        out.println("---------------------------------------------");
-        out.println("Transfers");
-        out.println("ID          From/To                 Amount");
-        out.println("---------------------------------------------");
-
-        for (User user : users) {
-            if (currentUser.getUser().getUsername().equals(user.getUsername())) {
-                for (Transfer transfer : transfers) {
-                    if (transfer.getAccountFromId().equals(currentUser.getUser().getId() + 1000)) {
-                        out.println((transfer.getAccountFromId() - 2000) + "   " + user.getUsername() + "   " + transfer.getAmount());
-                        //ToDO: get it to display the right username
-                    }
-                    if (transfer.getAccountFromId().equals(user.getId() + 1000)) {
-                        out.println((transfer.getAccountToId() - 2000) + "   " + user.getUsername() + "   " + transfer.getAmount());
-                    }
-
-                }
-            }
-        }
-
-//        //ToDO: The "To" account needs to reflect which user money went to. Currently shows only current Username..
-//        if (transfer.getAccountToId().equals(currentUser.getUser().getId()+ 1000)) { //couldn't think of another way!
-//            if(user.getUsername().equals(user.getUsername())) {
-//                out.println("         To: " + user.getUsername() + "                   " + transfer.getAmount());
-//            }
-//        }
-//        if (transfer.getAccountFromId().equals(user.getId() + 1000)) {
-//            if(!user.getUsername().equals(currentUser.getUser().getUsername())) {
-//                out.println("        From: " + user.getUsername() + "                 " + transfer.getAmount());
-//            }
-//        }
-
-//        for (Transfer transfer : transfers) {
-//            //I know there's a better way...just don't know the way right now...
-//            if(transfer.getAccountToId().equals(currentUser.getUser().getId() + 1000)) {
-//                out.println("          "+"To You:" +"                   "+transfer.getAmount());
-//            }
-//            if(transfer.getAccountFromId().equals(currentUser.getUser().getId() + 1000)){
-//                out.println("          "+"From You:"+"                 "+transfer.getAmount());
-//            }
-//        }
-        out.println("---------------------------------------------");
-    }
-
-    //TODO: CLEANUP:: THIS METHOD ABOVE IS NOT USED:::
-
 
     //TODO: Format numbers to represent money.
-    //TODO: Also, it's flu season in this method right now. user3 displays wrong info(other users display correctly).
     public void displayTransferDetails(TransferDetail[] transferDetails, AuthenticatedUser currentUser) {
         out.println("---------------------------------------------");
         out.println("Transfers");
         out.println("ID          From/To                 Amount");
         out.println("---------------------------------------------");
         for (TransferDetail transferDetail : transferDetails) {
-            if (!transferDetail.getUserFromId().equals(currentUser.getUser().getId())) {
-                out.println(transferDetail.getTransferId() + "    From: " + transferDetail.getUserFromUsername() + "                 " + transferDetail.getAmount());
-            }
             if (transferDetail.getUserFromId().equals(currentUser.getUser().getId())) {
                 out.println(transferDetail.getTransferId() + "      To: " + transferDetail.getUserToUsername() + "                 " + transferDetail.getAmount());
             }
-            break; //nts: this break is here because it stopped repeats.
-
+            if (transferDetail.getUserToId().equals(currentUser.getUser().getId())) {
+                out.println(transferDetail.getTransferId() + "    From: " + transferDetail.getUserFromUsername() + "                 " + transferDetail.getAmount());
+            }
         }
     }
         //TODO: Format numbers to represent money.

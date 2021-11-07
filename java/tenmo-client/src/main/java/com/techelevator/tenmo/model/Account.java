@@ -13,11 +13,13 @@ public class Account {
     @JsonProperty("balance")
     private double balance;
 
-    public Account () {}
+    public Account() {
+    }
 
     public Integer getAccountId() {
         return accountId;
     }
+
     public void setAccountId(Integer accountId) {
         this.accountId = accountId;
     }
@@ -25,6 +27,7 @@ public class Account {
     public Integer getUserId() {
         return userId;
     }
+
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
@@ -32,6 +35,7 @@ public class Account {
     public double getBalance() {
         return balance;
     }
+
     public void setBalance(double balance) {
         this.balance = balance;
     }

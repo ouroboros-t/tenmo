@@ -19,7 +19,8 @@ public class Transfer {
     @JsonProperty("amount")
     private double amount;
 
-    public Transfer(){}
+    public Transfer() {
+    }
 
     public Integer getTransferId() {
         return transferId;

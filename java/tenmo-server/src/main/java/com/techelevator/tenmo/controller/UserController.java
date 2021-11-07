@@ -17,14 +17,13 @@ public class UserController {
 
     private UserDao dao;
 
-
-    public UserController(UserDao dao){
+    public UserController(UserDao dao) {
         this.dao = dao;
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public List<User> getUsers(){
-       return dao.findAll();
+    public List<User> getUsers() {
+        return dao.findAll();
     }
 
 }

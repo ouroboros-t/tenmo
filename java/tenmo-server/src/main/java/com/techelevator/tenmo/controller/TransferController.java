@@ -17,34 +17,29 @@ public class TransferController {
     private TransferDao dao;
 
 
-    public TransferController(TransferDao dao){
+    public TransferController(TransferDao dao) {
         this.dao = dao;
     }
 
     /**
      * performs the transfer
+     *
      * @param transfer
      * @return
      */
-    @RequestMapping(path ="", method = RequestMethod.POST)
-    public Transfer transfer(@RequestBody Transfer transfer, Principal user){
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public Transfer transfer(@RequestBody Transfer transfer, Principal user) {
         Transfer newTransfer = dao.createTransfer(transfer);
         dao.accountTransaction(newTransfer);
         return newTransfer;
     }
-    //TODO: CLEANUP:: THIS METHOD BELOW IS NOT USED:::
-//@RequestMapping(path = "", method = RequestMethod.GET)
-//    public List<Transfer> findTransfers(Principal user){
-//        return dao.getUserTransfers(user.getName());
-//}
-    //TODO: CLEANUP:: THIS METHOD ABOVE IS NOT USED:::
 
 
-@RequestMapping(path="", method = RequestMethod.GET)
-    public List<TransferDetail> getTransferDetails(Principal user){
+    @RequestMapping(path = "", method = RequestMethod.GET)
+    public List<TransferDetail> getTransferDetails(Principal user) {
         return dao.getTransferDetails(user.getName());
 
-}
+    }
 
 
 }
