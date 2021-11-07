@@ -62,7 +62,7 @@ public class JdbcTransferDao implements TransferDao {
                     " JOIN users AS userTo ON acctTo.user_id = userTo.user_id" +
                     " JOIN transfer_statuses AS ts ON t1.transfer_status_id = ts.transfer_status_id" +
                     " JOIN transfer_types AS tt ON t1.transfer_type_id = tt.transfer_type_id" +
-                    " WHERE userFrom.username = ?;";
+                    " WHERE (userFrom.username, userTo.username) IN ((SELECT userFrom.username, userTo.username FROM users WHERE username ILIKE ?));";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
         while(results.next()){
             TransferDetail transferDetail = mapRowToTransferDetail(results);

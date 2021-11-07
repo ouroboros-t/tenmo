@@ -92,9 +92,11 @@ public class App {
     }
 
     private void viewTransferHistory() {
+        Integer transferId = null;
         try{
-            //console.displayTransferHistory(userService.usersRequest(currentUser.getToken()),transferService.transfersRequest(currentUser.getToken()), currentUser);
-            console.displayTransferDetails(transferService.transferDetailRequest(currentUser.getToken()));
+            console.displayTransferDetails(transferService.transferDetailRequest(currentUser.getToken()), currentUser);
+            transferId = console.getUserInputInteger("Please enter transfer ID to view details (0 to cancel):");
+            console.displaySingleTransferDetail(transferService.transferDetailRequest(currentUser.getToken()), transferId);
         } catch (TransferServiceException e){
             System.out.println("TRANSFER ERROR: " + e.getMessage());
         }
