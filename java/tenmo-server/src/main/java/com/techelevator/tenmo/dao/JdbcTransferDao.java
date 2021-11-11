@@ -54,7 +54,7 @@ public class JdbcTransferDao implements TransferDao {
         }
         return transferDetails;
     }
-
+        //TODO: Implement a BEGIN TRANSACTION for creating transfer, debit, and credit.
     @Override
     public boolean accountTransaction(Transfer transfer) {
             //debit
@@ -69,7 +69,7 @@ public class JdbcTransferDao implements TransferDao {
             //we had a validation method here originally, so we're leaving it as returning a boolean.
     }
 
-
+    //TODO: Validation of currentUser server-side:
     public boolean validateAccountFrom(Transfer transfer, String username) {
         String sql = "SELECT t.account_from" +
                     " FROM transfers AS t" +

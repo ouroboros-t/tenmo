@@ -34,6 +34,12 @@ public class TransferController {
         return newTransfer;
     }
 
+    @RequestMapping(path = "/pending", method = RequestMethod.POST)
+    public Transfer pendingTransfer(@RequestBody Transfer transfer, Principal user) {
+        Transfer newTransfer = dao.createTransfer(transfer);
+        return newTransfer;
+    }
+
 
     @RequestMapping(path = "", method = RequestMethod.GET)
     public List<TransferDetail> getTransferDetails(Principal user) {

@@ -105,7 +105,11 @@ public class App {
     }
 
     private void viewPendingRequests() {
-        // TODO Auto-generated method stub
+        try{
+            console.displayPendingTransfers(transferService.transferDetailRequest(currentUser.getToken()), currentUser);
+        } catch (TransferServiceException e) {
+            System.out.println("TRANSFER ERROR: " + e.getMessage());
+        }
 
     }
 
@@ -145,7 +149,38 @@ public class App {
     }
 
     private void requestBucks() {
-        // TODO Auto-generated method stub
+        User[] users = null;
+        String sendId = null;
+        try {
+            users = userService.usersRequest(currentUser.getToken());
+            console.displayUsers(users, currentUser);
+            boolean isSendUserIdValid = false;
+            while (!isSendUserIdValid) {
+                sendId = collectTEBucksRequestUser();
+                if (Integer.parseInt(sendId) == 0) {
+                    return;
+                }
+                for (User user : users) {
+                    if (user.getId().equals(Integer.parseInt(sendId))) {
+                        int sendIdInt = Integer.parseInt(sendId);
+                        isSendUserIdValid = true;
+                        Double amountDouble = console.getUserInputDouble("Please enter the TE bucks amount you would like to request");
+                        Transfer transfer = createPendingTransfer(sendIdInt, amountDouble);
+                        console.displayPendingRequest(transferService.pendingTransferRequest(currentUser.getToken(), transfer));
+                        break;
+                    }
+                }
+            }
+
+        } catch (UserServiceException e) {
+            System.out.println("USERNAME ERROR: " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("USERNAME ERROR: username not provided");
+        } catch (TransferServiceException e) {
+            System.out.print("INSUFFICIENT FUNDS");
+        } catch (AccountServiceException e) {
+            System.out.println("BALANCE ERROR: " + e.getMessage());
+        }
 
     }
 
@@ -214,6 +249,10 @@ public class App {
         return console.getUserInput("Enter ID of user you are sending to (0 to cancel)");
     }
 
+    private String collectTEBucksRequestUser() {
+        return console.getUserInput("Enter ID of user you are requesting from (0 to cancel)");
+    }
+
     private Transfer createTransfer(int sendId, Double amountDouble) throws TransferServiceException, AccountServiceException {
         Transfer transfer = new Transfer();
         transfer.setTransferTypeId(2);
@@ -239,6 +278,22 @@ public class App {
             return false;
         }
     }
+
+    private Transfer createPendingTransfer(int sendId, Double amountDouble) throws TransferServiceException, AccountServiceException {
+        Transfer transfer = new Transfer();
+        transfer.setTransferTypeId(1);
+        transfer.setTransferStatusId(1);
+        transfer.setAccountFromId(accountService.getAccountIdFromUsername(currentUser.getToken(), currentUser.getUser().getUsername()));
+        transfer.setAccountToId(accountService.getAccountIdFromUserId(currentUser.getToken(), sendId));
+
+        if (validateTransferAmount(amountDouble, currentUser)) {
+            transfer.setAmount(amountDouble);
+        } else {
+            throw new TransferServiceException("Insufficient Funds. ");
+        }
+        return transfer;
+    }
+
 
 
 }

@@ -126,10 +126,10 @@ public class ConsoleService {
         out.println("ID          From/To                 Amount");
         out.println("---------------------------------------------");
         for (TransferDetail transferDetail : transferDetails) {
-            if (transferDetail.getUserFromId().equals(currentUser.getUser().getId())) {
+            if (transferDetail.getUserFromId().equals(currentUser.getUser().getId()) && transferDetail.getTransferStatusId().equals(2)) {
                 out.println(transferDetail.getTransferId() + "      To: " + transferDetail.getUserToUsername() + "                 " + transferDetail.getAmount());
             }
-            if (transferDetail.getUserToId().equals(currentUser.getUser().getId())) {
+            if (transferDetail.getUserToId().equals(currentUser.getUser().getId()) && transferDetail.getTransferStatusId().equals(2)) {
                 out.println(transferDetail.getTransferId() + "    From: " + transferDetail.getUserFromUsername() + "                 " + transferDetail.getAmount());
             }
         }
@@ -153,6 +153,26 @@ public class ConsoleService {
 
 
     }
+    public void displayPendingRequest(Transfer transfer) {
+        out.println();
+        out.println("Request for " + transfer.getAmount() +" from user: "+transfer.getAccountToId() + " successful!");
+    }
+
+    public void displayPendingTransfers(TransferDetail[] transferDetails, AuthenticatedUser currentUser) {
+        out.println("---------------------------------------------");
+        out.println("Pending Transfers");
+        out.println("ID              To:                 Amount");
+        out.println("---------------------------------------------");
+        for (TransferDetail transferDetail : transferDetails) {
+            if (transferDetail.getUserFromId().equals(currentUser.getUser().getId()) && transferDetail.getTransferStatusId().equals(1)) {
+                out.println(transferDetail.getTransferId() +"            "+ transferDetail.getUserToUsername() + "                 " + transferDetail.getAmount());
+            }
+
+        }
+    }
+
+    //view pending requests
+
 
 
 }

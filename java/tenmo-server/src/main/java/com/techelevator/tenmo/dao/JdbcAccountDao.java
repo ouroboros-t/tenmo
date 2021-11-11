@@ -44,6 +44,7 @@ public class JdbcAccountDao implements AccountDao {
         throw new AccountNotFoundException("Account for " + userId + " not found.");
     }
 
+    //have getbalance method call this method because it does the exact same call.
     @Override
     public Account getAccount(String username) throws AccountNotFoundException {
         String sql = " SELECT a.account_id" +

@@ -31,6 +31,24 @@ public class TransferService {
 
     }
 
+    public Transfer pendingTransferRequest(String token, Transfer transfer) throws TransferServiceException {
+        return sendPendingTransferRequest(createTransferEntity(token, transfer));
+
+    }
+
+    public Transfer sendPendingTransferRequest(HttpEntity<Transfer> entity) throws TransferServiceException {
+        try {
+            ResponseEntity<Transfer> response = restTemplate.exchange(baseUrl + "/pending", HttpMethod.POST, entity, Transfer.class);
+            return response.getBody();
+        } catch (RestClientResponseException e) {
+            String message = createTransferExceptionMessage(e);
+            throw new TransferServiceException(message);
+        }
+
+    }
+
+
+
 
     private String createTransferExceptionMessage(RestClientResponseException e) {
         return e.getRawStatusCode() + " : " + e.getResponseBodyAsString();
